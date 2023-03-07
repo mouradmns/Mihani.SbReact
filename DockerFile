@@ -1,4 +1,4 @@
 FROM openjdk:8
 EXPOSE 8080
-ADD target/springboot-images-new.jar springboot-images-new.jar
+ADD target/mihanie-github-actions.jar mihanie-github-actions.jar
 ENTRYPOINT ["java","-jar","/mihanie-github-actions.jar"]
