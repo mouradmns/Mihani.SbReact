@@ -1,4 +1,4 @@
-FROM openjdk:18
+FROM openjdk:19
 EXPOSE 8080
 ADD target/mihanie-github-actions.jar mihanie-github-actions.jar
 ENTRYPOINT ["java","-jar","/mihanie-github-actions.jar"]
