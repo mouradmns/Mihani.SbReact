@@ -1,2 +1,6 @@
-package com.mihani.entities;public enum ServicesBricolage {
+package com.mihani.entities;
+
+
+public enum ServicesBricolage {
+    PLOMBERIE,ELECTRICITE,PEINTRE,AUTRE
 }
