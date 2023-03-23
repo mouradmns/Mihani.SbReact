@@ -25,7 +25,7 @@ public class Bricoleur extends Utilisateur {
 
     private double Rating;
 
-    private String mainPic;
+       private String mainPic;
     private String secondPic;
     private String thirdPic;
 
