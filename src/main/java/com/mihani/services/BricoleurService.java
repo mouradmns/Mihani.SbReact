@@ -7,6 +7,7 @@ import com.mihani.entities.Bricoleur;
 
 import java.util.List;
 
+
 public interface BricoleurService {
 
     Bricoleur saveBricoleur(Bricoleur bricoleur) throws BricoleurAlreadyExistsException;

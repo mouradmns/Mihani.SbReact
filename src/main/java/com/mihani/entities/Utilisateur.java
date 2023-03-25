@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-
 @Entity
 @Data
 @NoArgsConstructor
@@ -16,6 +15,7 @@ import java.util.Date;
 
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "Type", length = 4,discriminatorType = DiscriminatorType.STRING)
+
 public abstract class Utilisateur {
 
     @Id

@@ -5,10 +5,12 @@ import com.mihani.Exceptions.BricoleurNotFoundException;
 import com.mihani.dtos.BricoleurProfileDto;
 import com.mihani.entities.Bricoleur;
 
+
 import com.mihani.mappers.BricoleurMapperImpl;
 import com.mihani.repo.BricoleurRepo;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,7 @@ public class BricoleurServiceImpl implements BricoleurService{
     private  BricoleurMapperImpl dtoMapper;
 
     @Override
+
     public Bricoleur saveBricoleur(Bricoleur bricoleur) throws BricoleurAlreadyExistsException {
         Optional<Bricoleur> existingBricoleur = bricoleurRepo.findById(bricoleur.getIdUtilisateur());
         if(existingBricoleur.isPresent()){
@@ -65,12 +68,11 @@ public class BricoleurServiceImpl implements BricoleurService{
     public BricoleurProfileDto getBricoleur(Long idBricoleur) {
         return dtoMapper.fromBricoleur(bricoleurRepo.getReferenceById(idBricoleur)  );
     }
-
-
     @Override
     public List<BricoleurProfileDto> listBricoleurs() {
 
         List<Bricoleur> bricoleurs = bricoleurRepo.findAll();
+
 
         log.info(" ----------------------------bricoleurs  service Mapper--------------------------------");
 
@@ -78,5 +80,6 @@ public class BricoleurServiceImpl implements BricoleurService{
                 dtoMapper.fromBricoleur(br)).toList();
 
         return brDto;
+
     }
 }

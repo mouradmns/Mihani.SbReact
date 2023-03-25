@@ -5,10 +5,10 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Data;
 
-import java.util.UUID;
 
 @Data
 public class BricoleurProfileDto {
+
 
     private Long idUtilisateur;
     private String prenom;

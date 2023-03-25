@@ -2,6 +2,7 @@ package com.mihani.web;
 
 
 import com.mihani.dtos.BricoleurProfileDto;
+<<<<<<< HEAD
 import com.mihani.entities.Bricoleur;
 import com.mihani.Exceptions.BricoleurAlreadyExistsException;
 import com.mihani.Exceptions.BricoleurNotFoundException;
@@ -16,16 +17,33 @@ import java.util.List;
 
 
 @RestController
+=======
+import com.mihani.services.BricoleurServiceImpl;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController()
+>>>>>>> 5b3d7174df6847071947686fae74a7cfb05ac23a
 @AllArgsConstructor
 @Slf4j
 public class BricoleurController {
 
     private BricoleurServiceImpl bricoleurService;
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 5b3d7174df6847071947686fae74a7cfb05ac23a
     @GetMapping("/bricoleurs")
     public List<BricoleurProfileDto> bricoleurs(){
             return  bricoleurService.listBricoleurs();
     }
+<<<<<<< HEAD
 
 
     @GetMapping("bricoleurs/{id}")
@@ -59,6 +77,11 @@ public class BricoleurController {
 
         return  ResponseEntity.noContent().build();
 
+=======
+    @GetMapping("/")
+    public String Home(){
+            return "bricoleurs";
+>>>>>>> 5b3d7174df6847071947686fae74a7cfb05ac23a
     }
 
 }
