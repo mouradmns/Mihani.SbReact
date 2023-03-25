@@ -1,7 +1,8 @@
-package com.mihani.web;
+package com.mihani.rest;
 
 
 import com.mihani.dtos.BricoleurProfileDto;
+
 
 import com.mihani.entities.Bricoleur;
 import com.mihani.Exceptions.BricoleurAlreadyExistsException;
@@ -17,16 +18,19 @@ import java.util.List;
 
 
 @RestController
+
 @AllArgsConstructor
 @Slf4j
 public class BricoleurController {
 
     private BricoleurServiceImpl bricoleurService;
 
+
     @GetMapping("/bricoleurs")
     public List<BricoleurProfileDto> bricoleurs(){
             return  bricoleurService.listBricoleurs();
     }
+
 
     @GetMapping("bricoleurs/{id}")
     public BricoleurProfileDto getBricoleur(@PathVariable Long id)
@@ -58,6 +62,7 @@ public class BricoleurController {
         bricoleurService.deleteBricoleur(id);
 
         return  ResponseEntity.noContent().build();
+
 
     }
 

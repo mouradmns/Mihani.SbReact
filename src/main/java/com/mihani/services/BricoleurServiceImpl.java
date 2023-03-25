@@ -7,10 +7,9 @@ import com.mihani.entities.Bricoleur;
 
 
 import com.mihani.mappers.BricoleurMapperImpl;
-import com.mihani.repo.BricoleurRepo;
+import com.mihani.repositories.BricoleurRepo;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
