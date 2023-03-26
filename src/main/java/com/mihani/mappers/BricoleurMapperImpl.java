@@ -6,7 +6,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BricoleurMapperImpl {
+public class
+BricoleurMapperImpl {
 
     public BricoleurProfileDto fromBricoleur(Bricoleur bricoleur){
         BricoleurProfileDto brDto= new BricoleurProfileDto();

@@ -13,7 +13,8 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Builder
-public class Report {
+public class
+Report {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
