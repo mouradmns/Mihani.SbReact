@@ -64,44 +64,4 @@ public class Announcement {
     public Boolean isAvailable() {
         return this.available;
     }
-
-    /*public void addAnnouncementAttachment(AnnouncementAttachment attachment) {
-
-        if(this.announcementAttachments == null) {
-            this.announcementAttachments = new ArrayList<>();
-        }
-
-        this.announcementAttachments.add(attachment);
-        attachment.setAnnouncement(this);
-    }
-
-    public void addComment(Comment comment) {
-
-        if(this.comments == null) {
-            this.comments = new ArrayList<>();
-        }
-
-        this.comments.add(comment);
-        comment.setAnnouncement(this);
-    }
-
-    public void addOffer(Offer offer) {
-
-        if(this.offers == null) {
-            this.offers = new ArrayList<>();
-        }
-
-        this.offers.add(offer);
-        offer.setAnnouncement(this);
-    }
-
-    public void addReport(Report report) {
-
-        if(this.reports == null) {
-            this.reports = new ArrayList<>();
-        }
-
-        this.reports.add(report);
-        report.setAnnouncement(this);
-    }*/
 }

@@ -9,7 +9,6 @@ import lombok.Data;
 @Data
 public class BricoleurProfileDto {
 
-
     private Long idUtilisateur;
     private String prenom;
     private String nom;
@@ -18,7 +17,6 @@ public class BricoleurProfileDto {
     private ServicesBricolage service;
 
     private double Rating;
-
     private String mainPic;
 
 

@@ -1,7 +1,7 @@
 package com.mihani.services;
 
-import com.mihani.Exceptions.BricoleurAlreadyExistsException;
-import com.mihani.Exceptions.BricoleurNotFoundException;
+import com.mihani.exceptions.BricoleurAlreadyExistsException;
+import com.mihani.exceptions.BricoleurNotFoundException;
 import com.mihani.dtos.BricoleurProfileDto;
 import com.mihani.entities.Bricoleur;
 

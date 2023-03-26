@@ -31,4 +31,9 @@ public class Comment {
     @JsonBackReference
     private Announcement announcement;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_utilisateur")
+    @JsonBackReference
+    private Utilisateur user;
+
 }

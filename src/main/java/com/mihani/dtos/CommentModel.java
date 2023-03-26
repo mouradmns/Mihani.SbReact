@@ -17,5 +17,6 @@ public class CommentModel {
     private LocalDate dateComment;
     private String body;
     private Long idAnnouncement;
+    private Long idUser;
 
 }
