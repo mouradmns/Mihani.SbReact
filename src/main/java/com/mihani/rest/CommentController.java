@@ -4,10 +4,7 @@ import com.mihani.entities.Comment;
 import com.mihani.dtos.CommentModel;
 import com.mihani.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class CommentController {
@@ -31,7 +28,12 @@ public class CommentController {
                 .body(model.getBody())
                 .dateComment(model.getDateComment())
                 .build();
-        return commentService.modifyComment(model.getIdUser(), comment);
+        return commentService.modifyComment(model.getIdUser(), model.getIdAnnouncement(), comment);
+    }
+
+    @DeleteMapping("/comments")
+    public void deleteComment(@RequestBody CommentModel model) throws Exception {
+        commentService.deleteComment(model.getIdUser(), model.getId());
     }
 
 }

@@ -46,17 +46,43 @@ public class CommentService {
 
     }
 
-    public Comment modifyComment(Long idUser, Comment comment) throws Exception {
+    public Comment modifyComment(Long idUser, Long idAnnouncement, Comment comment) throws Exception {
         Optional<Comment> optionalComment = commentRepo.findById(comment.getId());
+        Optional<Utilisateur> optionalUser = userRepo.findById(idUser);
+        Optional<Announcement> optionalAnnouncement = announcementRepo.findById(idAnnouncement);
 
         if(optionalComment.isPresent()) {
-            if(checkUser(idUser, comment.getId())) {
-                return commentRepo.save(comment);
+            if(optionalUser.isPresent() && optionalAnnouncement.isPresent()) {
+                comment.setUser(optionalUser.get());
+                comment.setAnnouncement(optionalAnnouncement.get());
+                if (checkUser(idUser, comment.getId())) {
+                    return commentRepo.save(comment);
+                }
+                throw new Exception("The user with id " + idUser + " can not modify the comment with id " + comment.getId() +
+                        " because it is not his own");
             }
-            throw new Exception("The user with id " + idUser + " can not modify the comment with id " + comment.getId() +
-             " because it is not his");
+            throw new Exception("The user with id: " + idUser + " or announcement with id: " + idAnnouncement +
+                    " or both don't exist in database");
         }
         throw new Exception("There is no comment with id " + comment.getId() + " to update");
+    }
+
+    public void deleteComment(Long idUser, Long idComment) throws Exception {
+        Optional<Comment> optionalComment = commentRepo.findById(idComment);
+        Optional<Utilisateur> optionalUser = userRepo.findById(idUser);
+
+        if(optionalComment.isPresent()) {
+            if(optionalUser.isPresent()) {
+                if (checkUser(idUser, idComment)) {
+                    return ;
+                }
+                throw new Exception("The user with id " + idUser + " can not delete the comment with id " + idComment +
+                        " because it is not his own");
+            }
+            throw new Exception("The user with id: " + idUser + " don't exist in database");
+        }
+        throw new Exception("There is no comment with id " + idComment + " to delete");
+
     }
 
     public List<Comment> findAllComments() {
