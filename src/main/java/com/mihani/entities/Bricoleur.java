@@ -13,7 +13,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 
-//@DiscriminatorValue("BR")
+
+@DiscriminatorValue("BR")
+
 public class Bricoleur extends Utilisateur {
 
 

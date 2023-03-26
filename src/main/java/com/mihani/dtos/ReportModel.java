@@ -1,4 +1,4 @@
-package com.mihani.models;
+package com.mihani.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

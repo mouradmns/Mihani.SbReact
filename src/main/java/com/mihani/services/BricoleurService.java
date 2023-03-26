@@ -1,18 +1,20 @@
 package com.mihani.services;
 
+import com.mihani.Exceptions.BricoleurAlreadyExistsException;
+import com.mihani.Exceptions.BricoleurNotFoundException;
 import com.mihani.dtos.BricoleurProfileDto;
 import com.mihani.entities.Bricoleur;
 
 import java.util.List;
-import java.util.UUID;
+
 
 public interface BricoleurService {
 
-    Bricoleur saveBricoleur(Bricoleur bricoleur);
-    Bricoleur updateBricoleur(Bricoleur bricoleur);
-    Bricoleur deleteBricoleur(UUID idBricoleur);
+    Bricoleur saveBricoleur(Bricoleur bricoleur) throws BricoleurAlreadyExistsException;
+    Bricoleur updateBricoleur(Bricoleur bricoleur) throws BricoleurNotFoundException, BricoleurNotFoundException;
+    void deleteBricoleur(Long idBricoleur) throws BricoleurNotFoundException;
 
-    Bricoleur  getBricoleur(UUID idBricoleur);
+    BricoleurProfileDto getBricoleur(Long idBricoleur);
 
     List<BricoleurProfileDto> listBricoleurs();
 

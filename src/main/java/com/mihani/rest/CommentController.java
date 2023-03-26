@@ -1,7 +1,7 @@
 package com.mihani.rest;
 
 import com.mihani.entities.Comment;
-import com.mihani.models.CommentModel;
+import com.mihani.dtos.CommentModel;
 import com.mihani.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

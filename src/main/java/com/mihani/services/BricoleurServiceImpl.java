@@ -1,19 +1,22 @@
 package com.mihani.services;
 
+import com.mihani.Exceptions.BricoleurAlreadyExistsException;
+import com.mihani.Exceptions.BricoleurNotFoundException;
 import com.mihani.dtos.BricoleurProfileDto;
 import com.mihani.entities.Bricoleur;
+
+
 import com.mihani.mappers.BricoleurMapperImpl;
-import com.mihani.repo.BricoleurRepo;
+import com.mihani.repositories.BricoleurRepo;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import java.util.Optional;
+
+
 
 @Service
 @Transactional
@@ -25,34 +28,57 @@ public class BricoleurServiceImpl implements BricoleurService{
     private  BricoleurMapperImpl dtoMapper;
 
     @Override
-    public Bricoleur saveBricoleur(Bricoleur bricoleur) {
-        return null;
+
+    public Bricoleur saveBricoleur(Bricoleur bricoleur) throws BricoleurAlreadyExistsException {
+        Optional<Bricoleur> existingBricoleur = bricoleurRepo.findById(bricoleur.getIdUtilisateur());
+        if(existingBricoleur.isPresent()){
+            throw  new BricoleurAlreadyExistsException("a Bricoleur with the same id already exists!!");
+        }
+        return bricoleurRepo.save(bricoleur);
+
     }
 
     @Override
-    public Bricoleur updateBricoleur(Bricoleur bricoleur) {
-        return null;
+    public Bricoleur updateBricoleur(Bricoleur bricoleur) throws BricoleurNotFoundException {
+        Optional<Bricoleur> existingBricoleur = bricoleurRepo.findById(bricoleur.getIdUtilisateur());
+
+        if(existingBricoleur.isPresent()){
+            return bricoleurRepo.save(bricoleur);
+        }else {
+
+            throw new BricoleurNotFoundException("IdBricoleur given do not match Database !!");
+
+        }
+
     }
 
     @Override
-    public Bricoleur deleteBricoleur(UUID idBricoleur) {
-        return null;
+    public void deleteBricoleur(Long idBricoleur) throws BricoleurNotFoundException {
+        Optional<Bricoleur> existingBricoleur = bricoleurRepo.findById(idBricoleur);
+
+        if(existingBricoleur.isPresent()) {
+             bricoleurRepo.deleteById(idBricoleur);
+        }else {
+            throw new BricoleurNotFoundException("Bricoleur to delete  not found");
+        }
     }
 
     @Override
-    public Bricoleur getBricoleur(UUID idBricoleur) {
-        return null;
+    public BricoleurProfileDto getBricoleur(Long idBricoleur) {
+        return dtoMapper.fromBricoleur(bricoleurRepo.getReferenceById(idBricoleur)  );
     }
-
     @Override
     public List<BricoleurProfileDto> listBricoleurs() {
 
         List<Bricoleur> bricoleurs = bricoleurRepo.findAll();
 
-        log.info("bricoleurs  service--------------------------------");
-        List<BricoleurProfileDto> brDtos= bricoleurs.stream().map(br->
-                dtoMapper.fromBricoleur(br)).collect(Collectors.toList());
 
-        return brDtos;
+        log.info(" ----------------------------bricoleurs  service Mapper--------------------------------");
+
+        List<BricoleurProfileDto> brDto= bricoleurs.stream().map(br->
+                dtoMapper.fromBricoleur(br)).toList();
+
+        return brDto;
+
     }
 }

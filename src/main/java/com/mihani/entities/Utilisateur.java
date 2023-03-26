@@ -7,20 +7,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.UUID;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-//@DiscriminatorColumn(name = "Type", length = 4,discriminatorType = DiscriminatorType.STRING)
+
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "Type", length = 4,discriminatorType = DiscriminatorType.STRING)
+
+
 public abstract class Utilisateur {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID IdUtilisateur ;
+
+    private Long IdUtilisateur ;
 
     private String prenom ;
     private String nom ;
