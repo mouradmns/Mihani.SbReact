@@ -5,8 +5,8 @@ import com.mihani.dtos.BricoleurProfileDto;
 
 
 import com.mihani.entities.Bricoleur;
-import com.mihani.Exceptions.BricoleurAlreadyExistsException;
-import com.mihani.Exceptions.BricoleurNotFoundException;
+import com.mihani.exceptions.BricoleurAlreadyExistsException;
+import com.mihani.exceptions.BricoleurNotFoundException;
 import com.mihani.services.BricoleurServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
