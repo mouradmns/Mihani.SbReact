@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
+import java.util.List;
 
 @Entity
 @Data
@@ -19,16 +19,22 @@ import java.util.UUID;
 public class Bricoleur extends Utilisateur {
 
 
-
-    @Enumerated(EnumType.STRING)
-    private ServicesBricolage service;
+    @CollectionTable(name = "Bricoleur_Services", joinColumns = @JoinColumn(name = "IdUtilisateur"))
+    @Column(name = "bricoleur_services")
+    @ElementCollection(targetClass = BricolageService.class,fetch = FetchType.LAZY)
+        @Enumerated(EnumType.STRING)
+        private List<BricolageService> services;
 
     private String Description;
 
+
+    private Boolean BricoleurAvailability;
+
     private double Rating;
 
-       private String mainPic;
+    private String mainPic;
     private String secondPic;
     private String thirdPic;
+
 
 }
