@@ -11,6 +11,7 @@ import com.mihani.repositories.BricoleurRepo;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -80,5 +81,33 @@ public class BricoleurServiceImpl implements BricoleurService{
 
         return brDto;
 
+    }
+
+    @Override
+    public List<BricoleurProfileDto> filteredlistOfAVailableBricoleurs(String service, String description) {
+
+        Specification<Bricoleur> filteredSepc =Specification.where(BricoleurRepo.isAvailable());
+        Specification<Bricoleur> serviceSpec=null;
+        Specification<Bricoleur> descriptionSpec=null;
+
+        if(service != null)
+            serviceSpec = BricoleurRepo.hasBricolageService(service);
+        if(description != null)
+           descriptionSpec = BricoleurRepo.DescriptionContains(description);
+
+        if(descriptionSpec != null && serviceSpec != null)
+            filteredSepc = filteredSepc.and(descriptionSpec).and(serviceSpec);
+        else if(serviceSpec != null)
+            filteredSepc=filteredSepc.and(serviceSpec);
+        else if (descriptionSpec != null)
+                filteredSepc=filteredSepc.and(descriptionSpec);
+
+
+        List<Bricoleur> bricoleurs = bricoleurRepo.findAll(filteredSepc);
+
+        List<BricoleurProfileDto> brDto= bricoleurs.stream().map(br->
+                dtoMapper.fromBricoleur(br)).toList();
+
+        return brDto;
     }
 }

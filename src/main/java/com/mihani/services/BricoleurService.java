@@ -18,6 +18,10 @@ public interface BricoleurService {
 
     List<BricoleurProfileDto> listBricoleurs();
 
+    List<BricoleurProfileDto> filteredlistOfAVailableBricoleurs(String service, String description);
+
+
+
 
 
 }
