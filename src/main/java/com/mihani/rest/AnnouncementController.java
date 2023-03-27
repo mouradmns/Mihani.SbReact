@@ -1,7 +1,9 @@
 package com.mihani.rest;
 
 import com.mihani.entities.Announcement;
+import com.mihani.entities.Comment;
 import com.mihani.services.AnnouncementService;
+import com.mihani.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,9 @@ public class AnnouncementController {
     @Autowired
     private AnnouncementService announcementService;
 
+    @Autowired
+    private CommentService commentService;
+
     // the url /announcement?title=title&type=type to fetch this
     @GetMapping("/announcements")
     public List<Announcement> findByFilter(@RequestParam(name = "title", required = false) String title,
@@ -25,6 +30,11 @@ public class AnnouncementController {
     @GetMapping("/announcements/{id}")
     public Announcement findById(@PathVariable("id") Long id) throws Exception {
         return announcementService.findById(id);
+    }
+
+    @GetMapping("/announcements/{id}/comments")
+    public List<Comment> findCommentsByAnnouncementId(@PathVariable("id") Long id) throws Exception {
+        return commentService.findCommentsByAnnouncementId(id);
     }
 
     @PostMapping("/announcements")

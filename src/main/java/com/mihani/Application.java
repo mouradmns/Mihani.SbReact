@@ -23,7 +23,7 @@ public class Application {
 
 
 
-    @Bean
+    /*@Bean
     CommandLineRunner start(BricoleurRepo bricoleurRepo) {
         return args -> {
             Stream.of("Hassan", "Yassine", "Aicha").forEach(name -> {
@@ -37,7 +37,7 @@ public class Application {
             });
 
         };
-    }
+    }*/
 
 
 
