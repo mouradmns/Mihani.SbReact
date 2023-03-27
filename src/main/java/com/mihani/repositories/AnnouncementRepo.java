@@ -19,6 +19,8 @@ public interface AnnouncementRepo extends JpaRepository<Announcement, Long>, Jpa
             "WHERE a.title LIKE CONCAT('%', :title, '%')")
     public List<Announcement> findAnnouncementByTitle(@Param("title") String title);
 
+
+
     public static Specification<Announcement> titleContains(String title) {
         return new Specification<Announcement>() {
             @Override
