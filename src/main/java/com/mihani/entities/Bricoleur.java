@@ -6,14 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @DiscriminatorValue("BR")
-public class Bricoleur extends Utilisateur {
+public class Bricoleur extends User {
 
     @Enumerated(EnumType.STRING)
     private ServicesBricolage service;

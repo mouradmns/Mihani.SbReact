@@ -2,7 +2,7 @@ package com.mihani.services;
 
 import com.mihani.entities.Announcement;
 import com.mihani.entities.Comment;
-import com.mihani.entities.Utilisateur;
+import com.mihani.entities.User;
 import com.mihani.repositories.AnnouncementRepo;
 import com.mihani.repositories.CommentRepo;
 import com.mihani.repositories.UserRepo;
@@ -27,15 +27,15 @@ public class CommentService {
     private UserRepo userRepo;
 
     public Comment addComment(Long idAnnouncement,Long idUser, Comment comment) throws Exception {
-        Optional<Utilisateur> optionalUtilisateur = userRepo.findById(idUser);
+        Optional<User> optionalUtilisateur = userRepo.findById(idUser);
         Optional<Announcement> optAnnouncement = announcementRepo.findById(idAnnouncement);
 
         if(optAnnouncement.isPresent()) {
             if(optionalUtilisateur.isPresent()) {
-                Utilisateur utilisateur = optionalUtilisateur.get();
+                User user = optionalUtilisateur.get();
                 Announcement announcement = optAnnouncement.get();
                 comment.setAnnouncement(announcement);
-                comment.setUser(utilisateur);
+                comment.setUser(user);
                 comment = commentRepo.save(comment);
 
                 return comment;
@@ -48,7 +48,7 @@ public class CommentService {
 
     public Comment modifyComment(Long idUser, Long idAnnouncement, Comment comment) throws Exception {
         Optional<Comment> optionalComment = commentRepo.findById(comment.getId());
-        Optional<Utilisateur> optionalUser = userRepo.findById(idUser);
+        Optional<User> optionalUser = userRepo.findById(idUser);
         Optional<Announcement> optionalAnnouncement = announcementRepo.findById(idAnnouncement);
 
         if(optionalComment.isPresent()) {
@@ -69,7 +69,7 @@ public class CommentService {
 
     public void deleteComment(Long idUser, Long idComment) throws Exception {
         Optional<Comment> optionalComment = commentRepo.findById(idComment);
-        Optional<Utilisateur> optionalUser = userRepo.findById(idUser);
+        Optional<User> optionalUser = userRepo.findById(idUser);
 
         if(optionalComment.isPresent()) {
             if(optionalUser.isPresent()) {
@@ -86,14 +86,15 @@ public class CommentService {
 
     }
 
-    public List<Comment> findAllComments() {
-        return commentRepo.findAll();
-    }
-
     public List<Comment> findCommentsByAnnouncementId(Long announcementId) {
         List<Comment> comments = commentRepo.findCommentsByAnnouncementId(announcementId);
-        //TODO uncomment this line after tests pass
-        //Collections.sort(comments, new CommentComparator());
+        Collections.sort(comments, new CommentComparator());
+        return comments;
+    }
+
+    public List<Comment> findCommentsByUserId(Long userId) {
+        List<Comment> comments = commentRepo.findCommentsByUserId(userId);
+        Collections.sort(comments, new CommentComparator());
         return comments;
     }
 

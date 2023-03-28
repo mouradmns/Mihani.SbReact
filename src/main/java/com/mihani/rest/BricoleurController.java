@@ -36,7 +36,7 @@ public class BricoleurController {
     public BricoleurProfileDto getBricoleur(@PathVariable Long id)
     {
 
-        log.info("++++++++++id Utilisateur : "+id);
+        log.info("++++++++++id User : "+id);
         return bricoleurService.getBricoleur(id);
     }
 
@@ -50,7 +50,7 @@ public class BricoleurController {
     @PutMapping("bricoleurs/{id}")
     public ResponseEntity<Bricoleur> updateBricoleur(@PathVariable Long id , @RequestBody Bricoleur bricoleur) throws BricoleurNotFoundException {
 
-        bricoleur.setIdUtilisateur(id);
+        bricoleur.setId(id);
         Bricoleur updatedBricoleur=bricoleurService.updateBricoleur(bricoleur);
         return new ResponseEntity<>(updatedBricoleur,HttpStatus.OK);
     }

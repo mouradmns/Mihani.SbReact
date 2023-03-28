@@ -32,8 +32,8 @@ public class Comment {
     private Announcement announcement;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_utilisateur")
+    @JoinColumn(name = "id_user")
     @JsonBackReference
-    private Utilisateur user;
+    private User user;
 
 }
