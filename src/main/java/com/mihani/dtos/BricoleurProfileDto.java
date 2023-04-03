@@ -25,5 +25,6 @@ public class BricoleurProfileDto {
 
     private Boolean BricoleurAvailability;
 
+    private String description;
 }
 
