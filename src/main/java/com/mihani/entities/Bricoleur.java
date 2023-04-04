@@ -18,7 +18,6 @@ import java.util.List;
 
 public class Bricoleur extends Utilisateur {
 
-
     @CollectionTable(name = "Bricoleur_Services", joinColumns = @JoinColumn(name = "IdUtilisateur"))
     @Column(name = "bricoleur_services")
     @ElementCollection(targetClass = BricolageService.class,fetch = FetchType.LAZY)
@@ -27,10 +26,12 @@ public class Bricoleur extends Utilisateur {
 
     private String Description;
 
-
     private Boolean BricoleurAvailability;
 
     private double Rating;
+
+    private double servicePrice;
+    private int totalWorkHours;
 
     private String mainPic;
     private String secondPic;

@@ -32,3 +32,4 @@ public class Offer {
     private Announcement announcement;
 
 }
+    

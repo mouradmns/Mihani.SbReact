@@ -14,9 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 
 
 @Service
@@ -84,21 +84,37 @@ public class BricoleurServiceImpl implements BricoleurService{
     }
 
     @Override
-    public List<BricoleurProfileDto> filteredlistOfAVailableBricoleurs(String service, String description) {
+    public List<BricoleurProfileDto> filteredlistOfAVailableBricoleurs(List<String> services, String description) {
 
         Specification<Bricoleur> filteredSepc =Specification.where(BricoleurRepo.isAvailable());
-        Specification<Bricoleur> serviceSpec=null;
+//        Specification<Bricoleur> serviceSpec=null;
+        Specification<Bricoleur> combinedSpec=null;
         Specification<Bricoleur> descriptionSpec=null;
 
-        if(service != null)
-            serviceSpec = BricoleurRepo.hasBricolageService(service);
+        List<Specification<Bricoleur>> specifications = new ArrayList<>();
+
+
+
+
+        if(!services.isEmpty())
+//            serviceSpec = BricoleurRepo.hasBricolageService(service);
+
+            for (String service : services) {
+                specifications.add(BricoleurRepo.hasBricolageService(service));
+            }
+                combinedSpec = specifications.stream()
+                .reduce(Specification<Bricoleur>::or)
+                .orElse(null);
+
+
         if(description != null)
            descriptionSpec = BricoleurRepo.DescriptionContains(description);
 
-        if(descriptionSpec != null && serviceSpec != null)
-            filteredSepc = filteredSepc.and(descriptionSpec).and(serviceSpec);
-        else if(serviceSpec != null)
-            filteredSepc=filteredSepc.and(serviceSpec);
+
+        if(descriptionSpec != null && combinedSpec != null)
+            filteredSepc = filteredSepc.and(descriptionSpec).and(combinedSpec);
+        else if(combinedSpec != null)
+            filteredSepc=filteredSepc.and(combinedSpec);
         else if (descriptionSpec != null)
                 filteredSepc=filteredSepc.and(descriptionSpec);
 
