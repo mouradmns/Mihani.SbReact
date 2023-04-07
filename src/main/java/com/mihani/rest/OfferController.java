@@ -27,13 +27,13 @@ public class OfferController {
     }
 
 
-    @GetMapping("offers/{announcementId}")
+    @GetMapping("offers/announce/{announcementId}")
         public List<Offer> listOffersByAnnouncement(@PathVariable Long announcementId) throws AnnounceNotFoundException {
         return offerServiceImpl.listAnnouncementOffers(announcementId);
         }
 
 
-    @GetMapping("offers/{userId}")
+    @GetMapping("offers/user/{userId}")
     public List<Offer> listOffersByUser(@PathVariable Long userId) throws UserNotFoundException {
         return offerServiceImpl.listBricoleurOffers(userId);
     }

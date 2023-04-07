@@ -1,8 +1,10 @@
 package com.mihani;
 
 
+import com.mihani.entities.Announcement;
 import com.mihani.entities.BricolageService;
 import com.mihani.entities.Bricoleur;
+import com.mihani.repositories.AnnouncementRepo;
 import com.mihani.repositories.BricoleurRepo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -30,38 +32,44 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
     @Bean
-    CommandLineRunner start(BricoleurRepo bricoleurRepo) {
+    CommandLineRunner start(BricoleurRepo bricoleurRepo, AnnouncementRepo   announcementRepo) {
         return args -> {
-            Stream.of("ALi", "Mohamed", "Ahmed").forEach(name -> {
-                Bricoleur bricoleur = new Bricoleur();
+//            Stream.of("ALi", "Mohamed", "Ahmed").forEach(name -> {
+//                Bricoleur bricoleur = new Bricoleur();
+//
+//
+//
+//                Long i = Long.valueOf(23);
+//                bricoleur.setIdUser(i);
+//                bricoleur.setPrenom(name);
+//                bricoleur.setNom(name);
+//
+//                bricoleur.setRating(3.3);
+//
+//
+//
+//
+//                bricoleur.setEmail(name + "@gmail.com");
+//                bricoleur.setBricoleurAvailability(true);
+//                bricoleur.setDescription("contains dd ff ");
+//
+//                int j =2;
+//
+//                bricoleur.setMainPic("/assets/images/bricoleurs/bric"+j+".webp");
+//
+//
+//                List<BricolageService> listSrv = new ArrayList<>();
+//
+//                listSrv.add(BricolageService.ELECTRICITE);
+//                bricoleur.setServices(listSrv);
+//                bricoleurRepo.save(bricoleur);
+//            });
+//
+            Announcement announcement = new Announcement();
 
-
-
-                Long i = Long.valueOf(23);
-                bricoleur.setIdUser(i);
-                bricoleur.setPrenom(name);
-                bricoleur.setNom(name);
-
-                bricoleur.setRating(3.3);
-
-
-
-
-                bricoleur.setEmail(name + "@gmail.com");
-                bricoleur.setBricoleurAvailability(true);
-                bricoleur.setDescription("contains dd ff ");
-
-                int j =2;
-
-                bricoleur.setMainPic("/assets/images/bricoleurs/bric"+j+".webp");
-
-
-                List<BricolageService> listSrv = new ArrayList<>();
-
-                listSrv.add(BricolageService.ELECTRICITE);
-                bricoleur.setServices(listSrv);
-                bricoleurRepo.save(bricoleur);
-            });
+                announcement.setTitle("Bricolage at home");
+                announcement.setAvailable(true);
+                announcementRepo.save(announcement);
 
         };
     }
