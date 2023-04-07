@@ -1,32 +1,15 @@
 package com.mihani.services;
 
-import com.mihani.entities.Announcement;
+
+import com.mihani.Exceptions.AnnounceNotFoundException;
+import com.mihani.Exceptions.UserNotFoundException;
 import com.mihani.entities.Offer;
-import com.mihani.repositories.AnnouncementRepo;
-import com.mihani.repositories.OfferRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
-@Service
-public class OfferService {
+public interface OfferService {
+    public Offer addOffer(Long idAnnouncement, Long idUser, Offer offer) throws UserNotFoundException, AnnounceNotFoundException;
 
-    @Autowired
-    private OfferRepo offerRepo;
-
-    @Autowired
-    private AnnouncementRepo announcementRepo;
-
-    public Offer addOffer(Long idAnnouncement, Offer offer) throws Exception {
-        Optional<Announcement> optionalAnnouncement = announcementRepo.findById(idAnnouncement);
-
-        if(optionalAnnouncement.isPresent()) {
-            Announcement announcement = optionalAnnouncement.get();
-            offer.setAnnouncement(announcement);
-            return offerRepo.save(offer);
-        }
-        throw new Exception("There is no announcement with the id " + idAnnouncement);
-    }
-
+    public List<Offer>  listAnnouncementOffers(Long idAnnouncement) throws AnnounceNotFoundException;
+    public List<Offer>  listBricoleurOffers(Long idUser) throws UserNotFoundException;
 }

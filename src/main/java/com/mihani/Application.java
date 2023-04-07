@@ -29,44 +29,42 @@ public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-//
-//    @Bean
-//    CommandLineRunner start(BricoleurRepo bricoleurRepo) {
-//        return args -> {
-//            Stream.of("Bric1", "bric2", "bric3").forEach(name -> {
-//                Bricoleur bricoleur = new Bricoleur();
-//
-//
-//
-//                Long i = Long.valueOf(23);
-//                bricoleur.setIdUtilisateur(i);
-//                bricoleur.setPrenom(name);
-//                bricoleur.setNom(name);
-//
-//                bricoleur.setRating(4.3);
-//
-//
-//
-//
-//                bricoleur.setEmail(name + "@gmail.com");
-//                bricoleur.setBricoleurAvailability(true);
-//                bricoleur.setDescription("contains dd ff ");
-//
-//                int j =3;
-//
-//                bricoleur.setMainPic("/assets/images/bricoleurs/bric"+j+".webp");
-//
-//
-//                List<BricolageService> listSrv = new ArrayList<>();
-//
-//                listSrv.add(BricolageService.PEINTRE);
-//                bricoleur.setServices(listSrv);
-//
-//                bricoleurRepo.save(bricoleur);
-//            });
-//
-//        };
-//    }
+    @Bean
+    CommandLineRunner start(BricoleurRepo bricoleurRepo) {
+        return args -> {
+            Stream.of("ALi", "Mohamed", "Ahmed").forEach(name -> {
+                Bricoleur bricoleur = new Bricoleur();
+
+
+
+                Long i = Long.valueOf(23);
+                bricoleur.setIdUser(i);
+                bricoleur.setPrenom(name);
+                bricoleur.setNom(name);
+
+                bricoleur.setRating(3.3);
+
+
+
+
+                bricoleur.setEmail(name + "@gmail.com");
+                bricoleur.setBricoleurAvailability(true);
+                bricoleur.setDescription("contains dd ff ");
+
+                int j =2;
+
+                bricoleur.setMainPic("/assets/images/bricoleurs/bric"+j+".webp");
+
+
+                List<BricolageService> listSrv = new ArrayList<>();
+
+                listSrv.add(BricolageService.ELECTRICITE);
+                bricoleur.setServices(listSrv);
+                bricoleurRepo.save(bricoleur);
+            });
+
+        };
+    }
 
 
 

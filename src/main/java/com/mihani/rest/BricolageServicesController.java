@@ -2,8 +2,10 @@ package com.mihani.rest;
 
 
 import com.mihani.entities.BricolageService;
+import com.mihani.services.BricolageServicesServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,14 +21,12 @@ import java.util.stream.Collectors;
 @Slf4j
 public class BricolageServicesController {
 
+    @Autowired
+     private  BricolageServicesServiceImpl bricolageServicesService;
 
     @GetMapping("/services")
-    public List<String> getServices(){
+    public List<String> listServices(){
 
-        List<String> services = Arrays.stream(BricolageService.values())
-                .map(Enum::name)
-                .collect(Collectors.toList());
-
-        return services;
+        return bricolageServicesService.listServices() ;
     }
 }

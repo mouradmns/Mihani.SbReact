@@ -14,7 +14,7 @@ public interface BricoleurService {
     Bricoleur updateBricoleur(Bricoleur bricoleur) throws BricoleurNotFoundException, BricoleurNotFoundException;
     void deleteBricoleur(Long idBricoleur) throws BricoleurNotFoundException;
 
-    BricoleurProfileDto getBricoleur(Long idBricoleur);
+    BricoleurProfileDto getBricoleur(Long idBricoleur) throws BricoleurNotFoundException;
 
     List<BricoleurProfileDto> listBricoleurs();
 
