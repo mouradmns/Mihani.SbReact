@@ -29,6 +29,10 @@ public class BricoleurController {
     @GetMapping("/bricoleurs")
     public List<BricoleurProfileDto> bricoleurs(){
             return  bricoleurService.listBricoleurs();
+    }@GetMapping("/bricoleurs/available")
+    public List<BricoleurProfileDto> Filteredbricoleurs(@RequestParam(name ="service",required = false) String service,
+                                                        @RequestParam(name ="description",required = false) String description){
+            return  bricoleurService.filteredlistOfAVailableBricoleurs(service, description);
     }
 
 

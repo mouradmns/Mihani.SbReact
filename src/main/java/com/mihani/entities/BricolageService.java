@@ -1,7 +1,8 @@
 package com.mihani.entities;
 
 
-public enum ServicesBricolage {
+public enum BricolageService {
 
     PLOMBERIE,ELECTRICITE,PEINTRE,AUTRE
+
 }
