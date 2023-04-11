@@ -2,14 +2,16 @@ package com.mihani.rest;
 
 import com.mihani.entities.Announcement;
 import com.mihani.entities.Comment;
+import com.mihani.entities.ServicesBricolage;
 import com.mihani.services.AnnouncementService;
 import com.mihani.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class AnnouncementController {
@@ -23,8 +25,10 @@ public class AnnouncementController {
     // the url /announcement?title=title&type=type to fetch this
     @GetMapping("/announcements")
     public List<Announcement> findByFilter(@RequestParam(name = "title", required = false) String title,
-                                           @RequestParam(name = "type", required = false) String type) {
-        return announcementService.findAvailableAnnouncementByFilter(title, type);
+                                           @RequestParam(name = "type", required = false) String[] type) {
+        //TODO fix this after when the enum will be fixed
+        List<ServicesBricolage> types = Arrays.stream(type).map(ServicesBricolage::valueOf).toList();
+        return announcementService.findAvailableAnnouncementByFilter(title, types);
     }
 
     @GetMapping("/announcements/{id}")
@@ -37,9 +41,22 @@ public class AnnouncementController {
         return commentService.findCommentsByAnnouncementId(id);
     }
 
-    @PostMapping("/announcements")
-    public Announcement save(@RequestBody Announcement announcement) throws Exception {
-        return announcementService.save(announcement);
+    @PostMapping( value = "/announcements", consumes = {"multipart/form-data"})
+    public Announcement save(@RequestParam(name = "announcementAttachments", required = false) MultipartFile[] files,
+                             @RequestParam("title") String title,
+                             @RequestParam("description") String description,
+                             @RequestParam("appropriateDate") LocalDate appropriateDate,
+                             @RequestParam("typeService") String[] typeService) throws Exception {
+        List<ServicesBricolage> typeServices = Arrays.stream(typeService).map(ServicesBricolage::valueOf).toList();
+        Announcement announcement = Announcement.builder()
+                .title(title)
+                .description(description)
+                .typeService(typeServices)
+                .appropriateDate(appropriateDate)
+                .dateAnnouncement(LocalDate.now())
+                .available(true)
+                .build();
+        return announcementService.save(announcement, files);
     }
 
     @PutMapping("/announcements")

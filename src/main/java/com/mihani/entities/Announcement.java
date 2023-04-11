@@ -2,10 +2,7 @@ package com.mihani.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Announcement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +23,6 @@ public class Announcement {
 
     @Column(name = "title")
     private String title;
-
-    @Column(name = "type_service")
-    private String typeService;
 
     @Column(name = "description")
     private String description;
@@ -40,6 +35,10 @@ public class Announcement {
 
     @Column(name = "available")
     private Boolean available;
+
+    @ElementCollection(targetClass = ServicesBricolage.class)
+    @Enumerated(EnumType.STRING)
+    private List<ServicesBricolage> typeService;
 
     @OneToMany(fetch = FetchType.LAZY,
                 mappedBy = "announcement")
