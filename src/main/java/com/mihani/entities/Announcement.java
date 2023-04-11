@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -36,9 +35,9 @@ public class Announcement {
     @Column(name = "available")
     private Boolean available;
 
-    @ElementCollection(targetClass = ServicesBricolage.class)
+    @ElementCollection(targetClass = BricolageService.class)
     @Enumerated(EnumType.STRING)
-    private List<ServicesBricolage> typeService;
+    private List<BricolageService> typeService;
 
     @OneToMany(fetch = FetchType.LAZY,
                 mappedBy = "announcement")

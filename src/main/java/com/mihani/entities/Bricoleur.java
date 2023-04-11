@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class Bricoleur extends User {
 
     @Enumerated(EnumType.STRING)
-    private ServicesBricolage service;
+    private BricolageService service;
 
     private String Description;
     private double Rating;

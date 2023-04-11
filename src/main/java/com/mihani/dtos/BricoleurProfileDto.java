@@ -1,6 +1,6 @@
 package com.mihani.dtos;
 
-import com.mihani.entities.ServicesBricolage;
+import com.mihani.entities.BricolageService;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Data;
@@ -14,7 +14,7 @@ public class BricoleurProfileDto {
     private String nom;
 
     @Enumerated(EnumType.STRING)
-    private ServicesBricolage service;
+    private BricolageService service;
 
     private double Rating;
     private String mainPic;

@@ -3,7 +3,7 @@ package com.mihani.services;
 import com.mihani.config.BackendURL;
 import com.mihani.entities.Announcement;
 import com.mihani.entities.AnnouncementAttachment;
-import com.mihani.entities.ServicesBricolage;
+import com.mihani.entities.BricolageService;
 import com.mihani.repositories.AnnouncementAttachmentRepo;
 import com.mihani.repositories.AnnouncementRepo;
 import jakarta.transaction.Transactional;
@@ -94,7 +94,7 @@ public class AnnouncementService {
         else throw new Exception("The announcement doesn't found");
     }
 
-    public List<Announcement> findAvailableAnnouncementByFilter(String title, List<ServicesBricolage> types) {
+    public List<Announcement> findAvailableAnnouncementByFilter(String title, List<BricolageService> types) {
         Specification<Announcement> specification = Specification.where(AnnouncementRepo.isAvailabale());
         Specification<Announcement> titleSpec = null;
         Specification<Announcement> typeSpec = null;

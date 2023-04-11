@@ -1,7 +1,7 @@
 package com.mihani.repositories;
 
 import com.mihani.entities.Announcement;
-import com.mihani.entities.ServicesBricolage;
+import com.mihani.entities.BricolageService;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,7 +26,7 @@ public interface AnnouncementRepo extends JpaRepository<Announcement, Long>, Jpa
         };
     }
 
-    public static Specification<Announcement> typeIn(List<ServicesBricolage> types) {
+    public static Specification<Announcement> typeIn(List<BricolageService> types) {
         return new Specification<Announcement>() {
             @Override
             public Predicate toPredicate(Root<Announcement> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -34,8 +34,8 @@ public interface AnnouncementRepo extends JpaRepository<Announcement, Long>, Jpa
                 Root<Announcement> subqueryRoot = subquery.from(Announcement.class);
                 subquery.select(subqueryRoot.get("id"));
 
-                // Join the typeService attribute of the Announcement entity with the ServicesBricolage entity
-                Join<Announcement, ServicesBricolage> typeJoin = subqueryRoot.join("typeService");
+                // Join the typeService attribute of the Announcement entity with the BricolageService entity
+                Join<Announcement, BricolageService> typeJoin = subqueryRoot.join("typeService");
 
                 // Add the IN clause to the subquery
                 subquery.where(typeJoin.in(types));

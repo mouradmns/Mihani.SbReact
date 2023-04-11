@@ -1,8 +1,8 @@
 package com.mihani.rest;
 
 import com.mihani.entities.Announcement;
+import com.mihani.entities.BricolageService;
 import com.mihani.entities.Comment;
-import com.mihani.entities.ServicesBricolage;
 import com.mihani.services.AnnouncementService;
 import com.mihani.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class AnnouncementController {
     public List<Announcement> findByFilter(@RequestParam(name = "title", required = false) String title,
                                            @RequestParam(name = "type", required = false) String[] type) {
         //TODO fix this after when the enum will be fixed
-        List<ServicesBricolage> types = Arrays.stream(type).map(ServicesBricolage::valueOf).toList();
+        List<BricolageService> types = Arrays.stream(type).map(BricolageService::valueOf).toList();
         return announcementService.findAvailableAnnouncementByFilter(title, types);
     }
 
@@ -47,7 +47,7 @@ public class AnnouncementController {
                              @RequestParam("description") String description,
                              @RequestParam("appropriateDate") LocalDate appropriateDate,
                              @RequestParam("typeService") String[] typeService) throws Exception {
-        List<ServicesBricolage> typeServices = Arrays.stream(typeService).map(ServicesBricolage::valueOf).toList();
+        List<BricolageService> typeServices = Arrays.stream(typeService).map(BricolageService::valueOf).toList();
         Announcement announcement = Announcement.builder()
                 .title(title)
                 .description(description)
