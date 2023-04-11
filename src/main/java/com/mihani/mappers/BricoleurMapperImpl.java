@@ -20,7 +20,6 @@ BricoleurMapperImpl {
 
             Bricoleur bricoleur= new Bricoleur();
         BeanUtils.copyProperties(brDto,bricoleur);
-
         return bricoleur;
     }
 }

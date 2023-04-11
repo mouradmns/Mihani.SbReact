@@ -5,6 +5,8 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Data;
 
+import java.util.List;
+
 
 @Data
 public class BricoleurProfileDto {
@@ -14,11 +16,12 @@ public class BricoleurProfileDto {
     private String nom;
 
     @Enumerated(EnumType.STRING)
-    private BricolageService service;
+    private List<BricolageService> services;
 
     private double Rating;
     private String mainPic;
 
+    private Boolean BricoleurAvailability;
 
 }
 
