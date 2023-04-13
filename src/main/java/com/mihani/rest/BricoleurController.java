@@ -5,16 +5,13 @@ import com.mihani.dtos.BricoleurProfileDto;
 
 
 import com.mihani.entities.Bricoleur;
-import com.mihani.Exceptions.BricoleurAlreadyExistsException;
-import com.mihani.Exceptions.BricoleurNotFoundException;
 import com.mihani.mappers.BricoleurMapperImpl;
 
 import com.mihani.services.BricoleurServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,7 +45,7 @@ public class BricoleurController {
 
 
     @GetMapping("bricoleurs/{id}")
-    public BricoleurProfileDto getBricoleur(@PathVariable Long id) throws BricoleurNotFoundException {
+    public BricoleurProfileDto getBricoleur(@PathVariable Long id) throws  com.mihani.exceptions.BricoleurNotFoundException {
 
         return bricoleurService.getBricoleur(id);
     }
@@ -61,7 +58,7 @@ public class BricoleurController {
     }
 
     @PutMapping(value = "bricoleurs/{id}")
-    public Bricoleur updateBricoleur(@PathVariable Long id , @RequestBody BricoleurProfileDto bricoleur) throws BricoleurNotFoundException {
+    public Bricoleur updateBricoleur(@PathVariable Long id , @RequestBody BricoleurProfileDto bricoleur) throws com.mihani.exceptions.BricoleurNotFoundException {
         bricoleur.setIdUser(id);
         return bricoleurService.updateBricoleur(brciMapper.fromBricoleurProfileDto(bricoleur));
 
@@ -70,7 +67,7 @@ public class BricoleurController {
 
 
     @DeleteMapping("bricoleurs/{id}")
-    public void deleteBricoleur(@PathVariable Long id) throws BricoleurNotFoundException {
+    public void deleteBricoleur(@PathVariable Long id) throws com.mihani.exceptions.BricoleurNotFoundException {
         bricoleurService.deleteBricoleur(id);
 
     }
