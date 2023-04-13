@@ -14,11 +14,12 @@ public interface BricoleurService {
     Bricoleur updateBricoleur(Bricoleur bricoleur) throws BricoleurNotFoundException, BricoleurNotFoundException;
     void deleteBricoleur(Long idBricoleur) throws BricoleurNotFoundException;
 
+    List<BricoleurProfileDto> filteredlistOfAVailableBricoleurs(List<String> services, String description);
+
     BricoleurProfileDto getBricoleur(Long idBricoleur) throws BricoleurNotFoundException;
 
     List<BricoleurProfileDto> listBricoleurs();
 
-    List<BricoleurProfileDto> filteredlistOfAVailableBricoleurs(List<String> service, String description);
 
 
 

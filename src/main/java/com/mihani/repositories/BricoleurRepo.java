@@ -18,10 +18,6 @@ import java.util.UUID;
 
 public interface BricoleurRepo extends JpaRepository<Bricoleur, Long> , JpaSpecificationExecutor<Bricoleur> {
 
-//    @Query("SELECT b FROM Bricoleur  b  JOIN b.services s " +
-//            "WHERE s= :service ")
-//
-//    public List<Bricoleur> filterBricoleursByService(@Param("service") String service);
 
 
     public static Specification<Bricoleur> hasBricolageService(String service) {

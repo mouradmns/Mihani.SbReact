@@ -1,6 +1,5 @@
 package com.mihani.services;
 
-import com.mihani.exceptions.BricoleurAlreadyExistsException;
 import com.mihani.exceptions.BricoleurNotFoundException;
 import com.mihani.dtos.BricoleurProfileDto;
 import com.mihani.entities.Bricoleur;
@@ -93,9 +92,6 @@ public class BricoleurServiceImpl implements BricoleurService{
 
     @Override
     public Bricoleur saveBricoleur(Bricoleur bricoleur){
-        log.info("+==inside service : before" +bricoleur.getIdUser());
-        log.info("+==inside service : after" +bricoleur.getIdUser());
-        log.info("+==inside service : after" +bricoleur.toString());
         return bricoleurRepo.save(bricoleur);
     }
 
@@ -120,8 +116,5 @@ public class BricoleurServiceImpl implements BricoleurService{
             throw new BricoleurNotFoundException("Bricoleur to delete  not found");
         }
     }
-
-
-
 
 }

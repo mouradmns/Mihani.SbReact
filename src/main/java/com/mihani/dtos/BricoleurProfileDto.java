@@ -1,9 +1,9 @@
 package com.mihani.dtos;
 
 import com.mihani.entities.BricolageService;
-import jakarta.persistence.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Data;
-
 import java.util.Date;
 import java.util.List;
 
@@ -25,8 +25,6 @@ public class BricoleurProfileDto {
     private String mainPic;
 
     private Boolean BricoleurAvailability;
-
-
     private int totalWorkHours;
     private String email ;
     private  String Tel;

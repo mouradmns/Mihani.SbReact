@@ -9,7 +9,6 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Table(name = "bricoleur")
 @Data
 @Getter
 @Setter
@@ -21,29 +20,22 @@ import java.util.List;
 
 public class Bricoleur extends User {
 
+    @CollectionTable(name = "Bricoleur_Services", joinColumns = @JoinColumn(name = "IdUser"))
+    @ElementCollection(targetClass = BricolageService.class,fetch = FetchType.LAZY)
+        @Enumerated(EnumType.STRING)
+        private List<BricolageService> services;
 
-    private Boolean BricoleurAvailability;
+
     private String Description;
+    private Boolean BricoleurAvailability;
     private double Rating;
-
 
     private double servicePricePerHour;
     private int totalWorkHours;
-
     private String mainPic;
-    private String secondPic;
-    private String thirdPic;
 
 
-
-    @CollectionTable(name = "Bricoleur_Services", joinColumns = @JoinColumn(name = "IdUtilisateur"))
-    @Column(name = "bricoleur_services")
-    @ElementCollection(targetClass = BricolageService.class,fetch = FetchType.LAZY)
-    @Enumerated(EnumType.STRING)
-    private List<BricolageService> services;
-
-
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "bricoleur")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "bricoleur", cascade = CascadeType.REMOVE)
     @JsonManagedReference
     @JsonBackReference
     private List<Offer> offers;
