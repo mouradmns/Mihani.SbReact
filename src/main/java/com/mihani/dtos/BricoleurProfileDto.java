@@ -4,7 +4,7 @@ import com.mihani.entities.BricolageService;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Data;
-
+import java.util.Date;
 import java.util.List;
 
 
@@ -12,10 +12,11 @@ import java.util.List;
 public class BricoleurProfileDto {
 
 
-    private Long idUtilisateur;
+
+
+    private Long IdUser ;
     private String prenom;
     private String nom;
-
     @Enumerated(EnumType.STRING)
     private List<BricolageService> services;
 
@@ -24,6 +25,11 @@ public class BricoleurProfileDto {
     private String mainPic;
 
     private Boolean BricoleurAvailability;
-
+    private int totalWorkHours;
+    private String email ;
+    private  String Tel;
+    private String ville;
+    private String description;
+    private Date dateInscription;
 }
 

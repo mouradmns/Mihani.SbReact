@@ -1,40 +1,44 @@
 package com.mihani.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
+@Builder
 
 @DiscriminatorValue("BR")
 
-public class Bricoleur extends Utilisateur {
+public class Bricoleur extends User {
 
-
-    @CollectionTable(name = "Bricoleur_Services", joinColumns = @JoinColumn(name = "IdUtilisateur"))
-    @Column(name = "bricoleur_services")
+    @CollectionTable(name = "Bricoleur_Services", joinColumns = @JoinColumn(name = "IdUser"))
     @ElementCollection(targetClass = BricolageService.class,fetch = FetchType.LAZY)
         @Enumerated(EnumType.STRING)
         private List<BricolageService> services;
 
+
     private String Description;
-
-
     private Boolean BricoleurAvailability;
-
     private double Rating;
 
+    private double servicePricePerHour;
+    private int totalWorkHours;
     private String mainPic;
-    private String secondPic;
-    private String thirdPic;
 
+
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "bricoleur", cascade = CascadeType.REMOVE)
+    @JsonManagedReference
+    @JsonBackReference
+    private List<Offer> offers;
 
 }
+

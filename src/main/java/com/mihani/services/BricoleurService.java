@@ -1,7 +1,7 @@
 package com.mihani.services;
 
-import com.mihani.Exceptions.BricoleurAlreadyExistsException;
-import com.mihani.Exceptions.BricoleurNotFoundException;
+import com.mihani.exceptions.BricoleurAlreadyExistsException;
+import com.mihani.exceptions.BricoleurNotFoundException;
 import com.mihani.dtos.BricoleurProfileDto;
 import com.mihani.entities.Bricoleur;
 
@@ -14,11 +14,12 @@ public interface BricoleurService {
     Bricoleur updateBricoleur(Bricoleur bricoleur) throws BricoleurNotFoundException, BricoleurNotFoundException;
     void deleteBricoleur(Long idBricoleur) throws BricoleurNotFoundException;
 
-    BricoleurProfileDto getBricoleur(Long idBricoleur);
+    List<BricoleurProfileDto> filteredlistOfAVailableBricoleurs(List<String> services, String description);
+
+    BricoleurProfileDto getBricoleur(Long idBricoleur) throws BricoleurNotFoundException;
 
     List<BricoleurProfileDto> listBricoleurs();
 
-    List<BricoleurProfileDto> filteredlistOfAVailableBricoleurs(String service, String description);
 
 
 

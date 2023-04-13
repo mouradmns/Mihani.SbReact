@@ -20,15 +20,30 @@ public class Offer {
     @Column(name = "id")
     private Long id;
 
+
+    @Column(name = "offer_description")
+    private String description;
+
     @Column(name = "date_offer")
     private LocalDate dateOffer;
 
     @Column(name = "price")
     private Double price;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_announcement")
     @JsonBackReference
     private Announcement announcement;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "IdUser")
+    @JsonBackReference
+    private Bricoleur bricoleur;
+
+
+
+
+
 }
+    
