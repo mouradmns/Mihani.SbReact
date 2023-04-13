@@ -3,9 +3,11 @@ package com.mihani.services;
 import com.mihani.Exceptions.AnnounceNotFoundException;
 import com.mihani.Exceptions.UserNotFoundException;
 import com.mihani.entities.Announcement;
+import com.mihani.entities.Bricoleur;
 import com.mihani.entities.Offer;
 import com.mihani.entities.User;
 import com.mihani.repositories.AnnouncementRepo;
+import com.mihani.repositories.BricoleurRepo;
 import com.mihani.repositories.OfferRepo;
 import com.mihani.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,25 +25,25 @@ public class OfferServiceImpl implements OfferService {
     private AnnouncementRepo announcementRepo;
 
     @Autowired
-    private UserRepo userRepo;
+    private BricoleurRepo bricoleurRepo;
 
-    public Offer addOffer(Long idAnnouncement, Long idUser,Offer offer) throws UserNotFoundException, AnnounceNotFoundException {
+    public Offer addOffer(Long idAnnouncement, Long idBricoleur,Offer offer) throws UserNotFoundException, AnnounceNotFoundException {
         Optional<Announcement> optionalAnnouncement = announcementRepo.findById(idAnnouncement);
-        Optional<User> optionalUser =userRepo.findById(idUser);
+        Optional<Bricoleur> optionalBricoleur =bricoleurRepo.findById(idBricoleur);
 
-        if ( optionalUser.isPresent()){
+        if ( optionalBricoleur.isPresent()){
             if(optionalAnnouncement.isPresent()) {
                 Announcement announcement = optionalAnnouncement.get();
                 offer.setAnnouncement(announcement);
 
-                User user = optionalUser.get();
-                offer.setUser(user);
+                Bricoleur bricoleur = optionalBricoleur.get();
+                offer.setBricoleur(bricoleur);
 
                 return offerRepo.save(offer);
             }
             throw new AnnounceNotFoundException("There is no announcement with the id " + idAnnouncement);
         }
-        throw new UserNotFoundException("There is no User with the id " +idUser);
+        throw new UserNotFoundException("There is no User with the id " +idBricoleur);
     }
 
 
@@ -56,14 +58,14 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public List<Offer> listBricoleurOffers(Long idUser) throws UserNotFoundException {
-        Optional<User> optionalUser =userRepo.findById(idUser);
-        if(optionalUser.isPresent()) {
-            User user = optionalUser.get();
-        return offerRepo.getOffersByUser(user);
+    public List<Offer> listBricoleurOffers(Long idBricoleur) throws UserNotFoundException {
+        Optional<Bricoleur> optionalBricoleur =bricoleurRepo.findById(idBricoleur);
+        if(optionalBricoleur.isPresent()) {
+            Bricoleur bricoleur = optionalBricoleur.get();
+        return offerRepo.getOffersByBricoleur(bricoleur);
         }
 
-        throw new UserNotFoundException("User not found for this Id: "+idUser);
+        throw new UserNotFoundException("User not found for this Id: "+idBricoleur);
     }
 
 }

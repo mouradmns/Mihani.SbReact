@@ -1,10 +1,10 @@
 package com.mihani.dtos;
 
 import com.mihani.entities.BricolageService;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -12,8 +12,12 @@ import java.util.List;
 public class BricoleurProfileDto {
 
 
-    private Long idUtilisateur;
+
+
+    private Long IdUser ;
+
     private String prenom;
+
     private String nom;
 
     @Enumerated(EnumType.STRING)
@@ -25,6 +29,12 @@ public class BricoleurProfileDto {
 
     private Boolean BricoleurAvailability;
 
+
+    private int totalWorkHours;
+    private String email ;
+    private  String Tel;
+    private String ville;
     private String description;
+    private Date dateInscription;
 }
 

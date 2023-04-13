@@ -64,7 +64,7 @@ public class Application {
 //                bricoleur.setServices(listSrv);
 //                bricoleurRepo.save(bricoleur);
 //            });
-//
+
             Announcement announcement = new Announcement();
 
                 announcement.setTitle("Bricolage at home");
