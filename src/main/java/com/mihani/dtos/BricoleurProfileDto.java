@@ -13,9 +13,8 @@ public class BricoleurProfileDto {
 
 
     private Long idUtilisateur;
-    private String prenom;
+        private String prenom;
     private String nom;
-
     @Enumerated(EnumType.STRING)
     private List<BricolageService> services;
 
