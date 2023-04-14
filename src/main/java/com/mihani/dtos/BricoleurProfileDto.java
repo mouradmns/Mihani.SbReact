@@ -11,9 +11,6 @@ import java.util.List;
 @Data
 public class BricoleurProfileDto {
 
-
-
-
     private Long IdUser ;
     private String prenom;
     private String nom;
@@ -21,7 +18,6 @@ public class BricoleurProfileDto {
     private List<BricolageService> services;
 
     private double Rating;
-
     private String mainPic;
 
     private Boolean BricoleurAvailability;

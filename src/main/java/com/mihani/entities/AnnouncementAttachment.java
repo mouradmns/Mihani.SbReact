@@ -2,10 +2,7 @@ package com.mihani.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "announcement_attachment")
@@ -13,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class AnnouncementAttachment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

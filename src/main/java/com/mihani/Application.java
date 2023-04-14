@@ -1,5 +1,6 @@
 package com.mihani;
 
+import com.mihani.filters.CorsFilter;
 
 import com.mihani.entities.Announcement;
 import com.mihani.entities.BricolageService;
@@ -10,7 +11,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -31,6 +36,7 @@ import java.util.stream.Stream;
 
 @Transactional
 @SpringBootApplication
+@PropertySource("classpath:application.properties")
 public class Application {
 
     public static void main(String[] args) {
@@ -39,8 +45,24 @@ public class Application {
 
 
     @Bean
-    CommandLineRunner start(BricoleurRepo bricoleurRepo, AnnouncementRepo   announcementRepo) {
-        return args -> {
+    public FilterRegistrationBean corsFilterRegistration() {
+        FilterRegistrationBean registrationBean =
+                new FilterRegistrationBean(new CorsFilter());
+        registrationBean.setName("CORS filter");
+        registrationBean.addUrlPatterns("/*");
+        registrationBean.setOrder(1);
+        return registrationBean;
+    }
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
+
+
+//    @Bean
+//    CommandLineRunner start(BricoleurRepo bricoleurRepo, AnnouncementRepo   announcementRepo) {
+//        return args -> {
 //            Stream.of("ALi", "Mohamed", "Ahmed").forEach(name -> {
 //                Bricoleur bricoleur = new Bricoleur();
 //
@@ -77,7 +99,7 @@ public class Application {
 //                announcement.setTitle("Bricolage at home");
 //                announcement.setAvailable(true);
 //                announcementRepo.save(announcement);
-
-        };
-    }
+//
+//        };
+//    }
 }

@@ -11,12 +11,14 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Getter
 @Setter
-public class CommentModel {
+public class AnnouncementDto {
 
     private Long id;
-    private LocalDate dateComment;
-    private String body;
-    private Long idAnnouncement;
-    private Long idUser;
+    private String title;
+    private String typeService;
+    private String description;
+    private LocalDate appropriateDate;
+    private Boolean available;
+
 
 }
