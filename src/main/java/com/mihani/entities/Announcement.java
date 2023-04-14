@@ -44,6 +44,7 @@ public class Announcement {
     @JsonManagedReference
     private List<AnnouncementAttachment> announcementAttachments;
 
+
     @OneToMany(fetch = FetchType.LAZY,
                 mappedBy = "announcement")
     @JsonManagedReference

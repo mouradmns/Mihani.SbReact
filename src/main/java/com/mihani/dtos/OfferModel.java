@@ -11,7 +11,11 @@ import java.time.LocalDate;
 public class OfferModel {
 
     private Long id;
+     private String description;
+
     private LocalDate dateOffer;
     private Double price;
     private Long idAnnouncement;
+    private Long idUser;
+
 }
