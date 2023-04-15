@@ -24,8 +24,8 @@ public abstract class User {
     private String prenom;
     private String nom;
     private String email;
-    private int Age;
-    private  String Tel;
+    private Integer age;
+    private  String tel;
     private String ville;
     private Date dateInscription ;
 
