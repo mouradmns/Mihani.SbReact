@@ -1,7 +1,7 @@
 package com.mihani.rest;
 
 import com.mihani.Exceptions.AnnounceNotFoundException;
-import com.mihani.Exceptions.UserNotFoundException;
+import com.mihani.exceptions.UserNotFoundException;
 import com.mihani.entities.Offer;
 import com.mihani.dtos.OfferModel;
 import com.mihani.services.OfferServiceImpl;
