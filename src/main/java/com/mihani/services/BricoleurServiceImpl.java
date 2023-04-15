@@ -1,5 +1,6 @@
 package com.mihani.services;
 
+import com.mihani.exceptions.BricoleurAlreadyExistsException;
 import com.mihani.exceptions.BricoleurNotFoundException;
 import com.mihani.dtos.BricoleurProfileDto;
 import com.mihani.entities.Bricoleur;
@@ -51,10 +52,12 @@ public class BricoleurServiceImpl implements BricoleurService{
         List<Specification<Bricoleur>> specifications = new ArrayList<>();
 
 
-        if(!services.isEmpty())
-            for (String service : services) {
-                specifications.add(BricoleurRepo.hasBricolageService(service));
-            }
+        if (services != null) {
+            if (!services.isEmpty())
+                for (String service : services) {
+                    specifications.add(BricoleurRepo.hasBricolageService(service));
+                }
+        }
         combinedSpec = specifications.stream()
                 .reduce(Specification<Bricoleur>::or)
                 .orElse(null);
@@ -100,7 +103,7 @@ public class BricoleurServiceImpl implements BricoleurService{
 
     @Override
     public Bricoleur updateBricoleur(Bricoleur bricoleur) throws BricoleurNotFoundException {
-        Optional<Bricoleur> existingBricoleur = bricoleurRepo.findById(bricoleur.getIdUser());
+        Optional<Bricoleur> existingBricoleur = bricoleurRepo.findById(bricoleur.getId());
         if(existingBricoleur.isPresent()){
             return bricoleurRepo.save(bricoleur);
         }else {

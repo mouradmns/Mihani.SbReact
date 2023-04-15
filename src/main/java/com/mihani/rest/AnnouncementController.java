@@ -64,6 +64,7 @@ public class AnnouncementController {
         return announcementService.update(announcement);
     }
 
+    //TODO there is a problem with foreign key constraint
     @DeleteMapping("/announcements/{id}")
     public void delete(@PathVariable("id") Long id) throws Exception {
         announcementService.deleteById(id);

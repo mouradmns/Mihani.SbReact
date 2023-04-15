@@ -5,6 +5,7 @@ import com.mihani.dtos.BricoleurProfileDto;
 
 
 import com.mihani.entities.Bricoleur;
+import com.mihani.exceptions.BricoleurAlreadyExistsException;
 import com.mihani.exceptions.BricoleurNotFoundException;
 import com.mihani.mappers.BricoleurMapperImpl;
 
@@ -13,6 +14,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -50,19 +53,20 @@ public class BricoleurController {
 
 
     @PostMapping(value = "/bricoleurs")
-    public Bricoleur saveBricoleur(@RequestBody BricoleurProfileDto bricoleur) {
+    public Bricoleur saveBricoleur(@RequestBody BricoleurProfileDto bricoleur) throws BricoleurAlreadyExistsException {
         return  bricoleurService.saveBricoleur(brciMapper.fromBricoleurProfileDto(bricoleur));
     }
 
     @PutMapping(value = "bricoleurs/{id}")
-    public Bricoleur updateBricoleur(@PathVariable Long id , @RequestBody BricoleurProfileDto bricoleur) throws BricoleurNotFoundException {
+    public ResponseEntity<Bricoleur> updateBricoleur(@PathVariable Long id , @RequestBody BricoleurProfileDto bricoleur) throws BricoleurNotFoundException {
 
         bricoleur.setId(id);
-        Bricoleur updatedBricoleur=bricoleurService.updateBricoleur(bricoleur);
-        return new ResponseEntity<>(updatedBricoleur,HttpStatus.OK);
+        Bricoleur updatedBricoleur=bricoleurService.updateBricoleur(brciMapper.fromBricoleurProfileDto(bricoleur));
+        return new ResponseEntity<>(updatedBricoleur, HttpStatus.OK);
     }
 
 
+    //TODO there is a problem with foreign key constraint
     @DeleteMapping("bricoleurs/{id}")
     public void deleteBricoleur(@PathVariable Long id) throws BricoleurNotFoundException {
         bricoleurService.deleteBricoleur(id);

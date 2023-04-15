@@ -11,19 +11,19 @@ import java.util.List;
 @Data
 public class BricoleurProfileDto {
 
-    private Long IdUser ;
+    private Long id ;
     private String prenom;
     private String nom;
     @Enumerated(EnumType.STRING)
     private List<BricolageService> services;
 
-    private double Rating;
+    private Double Rating;
     private String mainPic;
 
     private Boolean BricoleurAvailability;
-    private int totalWorkHours;
+    private Integer totalWorkHours;
     private String email ;
-    private  String Tel;
+    private String Tel;
     private String ville;
     private String description;
     private Date dateInscription;

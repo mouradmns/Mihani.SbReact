@@ -1,4 +1,4 @@
-package com.mihani.Exceptions;
+package com.mihani.exceptions;
 
 public class UserNotFoundException extends Throwable {
     public UserNotFoundException(String message) {

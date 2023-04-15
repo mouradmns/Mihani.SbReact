@@ -26,9 +26,9 @@ public class Bricoleur extends User {
 
     private String Description;
     private Boolean BricoleurAvailability;
-    private double Rating;
-    private double servicePricePerHour;
-    private int totalWorkHours;
+    private Double Rating;
+    private Double servicePricePerHour;
+    private Integer totalWorkHours;
     private String mainPic;
 
 
