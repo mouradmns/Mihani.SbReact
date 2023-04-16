@@ -40,23 +40,27 @@ public class Announcement {
     private List<BricolageService> typeService;
 
     @OneToMany(fetch = FetchType.LAZY,
-                mappedBy = "announcement")
+                mappedBy = "announcement",
+                cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<AnnouncementAttachment> announcementAttachments;
 
 
     @OneToMany(fetch = FetchType.LAZY,
-                mappedBy = "announcement")
+                mappedBy = "announcement",
+                cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<Comment> comments;
 
     @OneToMany(fetch = FetchType.LAZY,
-            mappedBy = "announcement")
+            mappedBy = "announcement",
+            cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<Offer> offers;
 
     @OneToMany(fetch = FetchType.LAZY,
-            mappedBy = "announcement")
+            mappedBy = "announcement",
+            cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<Report> reports;
 

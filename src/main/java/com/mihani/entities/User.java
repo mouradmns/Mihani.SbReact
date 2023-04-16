@@ -30,7 +30,8 @@ public abstract class User {
     private Date dateInscription ;
 
     @OneToMany(fetch = FetchType.LAZY,
-                mappedBy = "user")
+                mappedBy = "user",
+                cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<Comment> comments;
 

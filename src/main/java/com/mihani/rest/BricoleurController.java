@@ -64,9 +64,7 @@ public class BricoleurController {
         Bricoleur updatedBricoleur=bricoleurService.updateBricoleur(brciMapper.fromBricoleurProfileDto(bricoleur));
         return new ResponseEntity<>(updatedBricoleur, HttpStatus.OK);
     }
-
-
-    //TODO there is a problem with foreign key constraint
+    
     @DeleteMapping("bricoleurs/{id}")
     public void deleteBricoleur(@PathVariable Long id) throws BricoleurNotFoundException {
         bricoleurService.deleteBricoleur(id);
