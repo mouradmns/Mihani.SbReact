@@ -23,4 +23,5 @@ public class ReportController {
                 .build();
         return reportService.addReport(model.getIdAnnouncement(), report);
     }
+
 }

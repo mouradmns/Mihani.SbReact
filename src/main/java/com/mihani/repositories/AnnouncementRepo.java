@@ -1,10 +1,8 @@
 package com.mihani.repositories;
 
 import com.mihani.entities.Announcement;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import com.mihani.entities.BricolageService;
+import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -30,11 +28,21 @@ public interface AnnouncementRepo extends JpaRepository<Announcement, Long>, Jpa
         };
     }
 
-    public static Specification<Announcement> typeEquals(String type) {
+    public static Specification<Announcement> typeIn(List<BricolageService> types) {
         return new Specification<Announcement>() {
             @Override
             public Predicate toPredicate(Root<Announcement> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.equal(root.get("typeService"), type);
+                Subquery<Long> subquery = query.subquery(Long.class);
+                Root<Announcement> subqueryRoot = subquery.from(Announcement.class);
+                subquery.select(subqueryRoot.get("id"));
+
+                // Join the typeService attribute of the Announcement entity with the BricolageService entity
+                Join<Announcement, BricolageService> typeJoin = subqueryRoot.join("typeService");
+
+                // Add the IN clause to the subquery
+                subquery.where(typeJoin.in(types));
+
+                return root.get("id").in(subquery);
             }
         };
     }

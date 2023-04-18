@@ -1,5 +1,6 @@
 package com.mihani.services;
 
+import com.mihani.exceptions.BricoleurAlreadyExistsException;
 import com.mihani.exceptions.BricoleurNotFoundException;
 import com.mihani.dtos.BricoleurProfileDto;
 import com.mihani.entities.Bricoleur;
@@ -33,14 +34,13 @@ public class BricoleurServiceImpl implements BricoleurService{
 
     @Override
     public List<BricoleurProfileDto> listBricoleurs() {
-
+    
         List<Bricoleur> bricoleurs = bricoleurRepo.findAll();
 
         List<BricoleurProfileDto> brDto= bricoleurs.stream().map(br->
                 dtoMapper.fromBricoleur(br)).toList();
         return brDto;
     }
-
 
     @Override
     public List<BricoleurProfileDto> filteredlistOfAVailableBricoleurs(List<String> services, String description) {
@@ -52,10 +52,12 @@ public class BricoleurServiceImpl implements BricoleurService{
         List<Specification<Bricoleur>> specifications = new ArrayList<>();
 
 
-        if(!services.isEmpty())
-            for (String service : services) {
-                specifications.add(BricoleurRepo.hasBricolageService(service));
-            }
+        if (services != null) {
+            if (!services.isEmpty())
+                for (String service : services) {
+                    specifications.add(BricoleurRepo.hasBricolageService(service));
+                }
+        }
         combinedSpec = specifications.stream()
                 .reduce(Specification<Bricoleur>::or)
                 .orElse(null);
@@ -91,13 +93,17 @@ public class BricoleurServiceImpl implements BricoleurService{
 
 
     @Override
-    public Bricoleur saveBricoleur(Bricoleur bricoleur){
+    public Bricoleur saveBricoleur(Bricoleur bricoleur) throws BricoleurAlreadyExistsException {
+        Optional<Bricoleur> existingBricoleur = bricoleurRepo.findById(bricoleur.getId());
+        if(existingBricoleur.isPresent()){
+            throw  new BricoleurAlreadyExistsException("a Bricoleur with the same id already exists!!");
+        }
         return bricoleurRepo.save(bricoleur);
     }
 
     @Override
     public Bricoleur updateBricoleur(Bricoleur bricoleur) throws BricoleurNotFoundException {
-        Optional<Bricoleur> existingBricoleur = bricoleurRepo.findById(bricoleur.getIdUser());
+        Optional<Bricoleur> existingBricoleur = bricoleurRepo.findById(bricoleur.getId());
         if(existingBricoleur.isPresent()){
             return bricoleurRepo.save(bricoleur);
         }else {
