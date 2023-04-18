@@ -72,11 +72,12 @@ public class Application {
 //                bricoleurRepo.save(bricoleur);
 //            });
 //
-//            Announcement announcement = new Announcement();
-//
-//                announcement.setTitle("Bricolage at home");
-//                announcement.setAvailable(true);
-//                announcementRepo.save(announcement);
+            Announcement announcement = new Announcement();
+
+                announcement.setTitle("Bricolage at home");
+                announcement.setAvailable(true);
+                announcement.setTypeService("ELECTRICITE");
+                announcementRepo.save(announcement);
 
         };
     }
