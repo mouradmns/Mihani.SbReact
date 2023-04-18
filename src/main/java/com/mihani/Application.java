@@ -98,8 +98,8 @@ public class Application {
 //
 //                announcement.setTitle("Bricolage at home");
 //                announcement.setAvailable(true);
+//                announcement.setTypeService("ELECTRICITE");
 //                announcementRepo.save(announcement);
 //
 //        };
-//    }
 }
