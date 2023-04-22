@@ -18,7 +18,7 @@ public class AnnouncementDto {
     private String typeService;
     private String description;
     private LocalDate appropriateDate;
-    private Boolean available;
+        private Boolean available;
 
 
 }

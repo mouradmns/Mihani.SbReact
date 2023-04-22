@@ -60,9 +60,9 @@ public class Application {
     }
 
 
-//    @Bean
-//    CommandLineRunner start(BricoleurRepo bricoleurRepo, AnnouncementRepo   announcementRepo) {
-//        return args -> {
+    @Bean
+    CommandLineRunner start(BricoleurRepo bricoleurRepo, AnnouncementRepo announcementRepo) {
+        return args -> {
 //            Stream.of("ALi", "Mohamed", "Ahmed").forEach(name -> {
 //                Bricoleur bricoleur = new Bricoleur();
 //
@@ -93,13 +93,17 @@ public class Application {
 //                bricoleur.setServices(listSrv);
 //                bricoleurRepo.save(bricoleur);
 //            });
-//
+
 //            Announcement announcement = new Announcement();
 //
-//                announcement.setTitle("Bricolage at home");
-//                announcement.setAvailable(true);
-//                announcement.setTypeService("ELECTRICITE");
-//                announcementRepo.save(announcement);
-//
-//        };
+//            announcement.setTitle("second announcement ");
+//            announcement.setAvailable(true);
+//            List<BricolageService> l = new ArrayList<>();
+//            l.add(BricolageService.ELECTRICITE);
+//            l.add(BricolageService.AUTRE);
+//            announcement.setTypeService(l);
+//            announcementRepo.save(announcement);
+
+        };
+    }
 }

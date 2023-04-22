@@ -12,7 +12,7 @@ BricoleurMapperImpl {
     public BricoleurProfileDto fromBricoleur(Bricoleur bricoleur){
         BricoleurProfileDto brDto= new BricoleurProfileDto();
 
-        BeanUtils.copyProperties(bricoleur,brDto);
+            BeanUtils.copyProperties(bricoleur,brDto);
 
         return brDto;
     }
