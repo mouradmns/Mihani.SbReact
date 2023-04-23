@@ -1,33 +1,33 @@
 package com.mihani.services;
 
 import com.mihani.Exceptions.AnnounceNotFoundException;
+import com.mihani.dtos.UserOffersDto;
 import com.mihani.exceptions.UserNotFoundException;
 import com.mihani.entities.Announcement;
 import com.mihani.entities.Bricoleur;
 import com.mihani.entities.Offer;
-import com.mihani.entities.User;
+import com.mihani.mappers.UserOffersMapper;
 import com.mihani.repositories.AnnouncementRepo;
 import com.mihani.repositories.BricoleurRepo;
 import com.mihani.repositories.OfferRepo;
-import com.mihani.repositories.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class OfferServiceImpl implements OfferService {
 
-    @Autowired
     private OfferRepo offerRepo;
-    @Autowired
     private AnnouncementRepo announcementRepo;
-
-    @Autowired
     private BricoleurRepo bricoleurRepo;
 
-    public Offer addOffer(Long idAnnouncement, Long idBricoleur,Offer offer) throws UserNotFoundException, AnnounceNotFoundException {
+    private UserOffersMapper offMapper;
+
+    public Offer addOffer(Long idAnnouncement, Long idBricoleur, Offer offer) throws UserNotFoundException, AnnounceNotFoundException {
         Optional<Announcement> optionalAnnouncement = announcementRepo.findById(idAnnouncement);
         Optional<Bricoleur> optionalBricoleur =bricoleurRepo.findById(idBricoleur);
 
@@ -38,8 +38,8 @@ public class OfferServiceImpl implements OfferService {
 
                 Bricoleur bricoleur = optionalBricoleur.get();
                 offer.setBricoleur(bricoleur);
-
-                return offerRepo.save(offer);
+                offer.setDateOffer(LocalDate.now());
+                return offerRepo.save(offer) ;
             }
             throw new AnnounceNotFoundException("There is no announcement with the id " + idAnnouncement);
         }
@@ -48,21 +48,30 @@ public class OfferServiceImpl implements OfferService {
 
 
     @Override
-    public List<Offer> listAnnouncementOffers(Long idAnnouncement) throws AnnounceNotFoundException {
+    public List<UserOffersDto> listAnnouncementOffers(Long idAnnouncement) throws AnnounceNotFoundException {
 
         Optional<Announcement> optionalAnnouncement = announcementRepo.findById(idAnnouncement);
         if(optionalAnnouncement.isPresent()){
-            return offerRepo.getOffersByAnnouncement_Id(idAnnouncement);
+
+            List<Offer> offers= offerRepo.getOffersByAnnouncement_Id(idAnnouncement);
+            List<UserOffersDto> listoffsDto= offers.stream().map(offer ->
+                    offMapper.fromOffer(offer)).toList();
+            return listoffsDto;
         }
         throw  new AnnounceNotFoundException("no Announcement found for id " + idAnnouncement);
     }
 
     @Override
-    public List<Offer> listBricoleurOffers(Long idBricoleur) throws UserNotFoundException {
+    public List<UserOffersDto> listBricoleurOffers(Long idBricoleur) throws UserNotFoundException {
         Optional<Bricoleur> optionalBricoleur =bricoleurRepo.findById(idBricoleur);
         if(optionalBricoleur.isPresent()) {
             Bricoleur bricoleur = optionalBricoleur.get();
-        return offerRepo.getOffersByBricoleur(bricoleur);
+
+            List<Offer> offers= offerRepo.getOffersByBricoleur(bricoleur);
+            List<UserOffersDto> listoffsDto= offers.stream().map(offer ->
+                        offMapper.fromOffer(offer)).toList();
+
+        return listoffsDto;
         }
 
         throw new UserNotFoundException("User not found for this Id: "+idBricoleur);
