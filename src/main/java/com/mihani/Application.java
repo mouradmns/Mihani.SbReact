@@ -35,7 +35,7 @@ import java.util.Random;
 import java.util.stream.Stream;
 
 @Transactional
-@SpringBootApplication
+@SpringBootApplication()
 @PropertySource("classpath:application.properties")
 public class Application {
 
