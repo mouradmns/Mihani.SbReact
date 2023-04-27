@@ -1,5 +1,6 @@
 package com.mihani.rest;
 
+import com.mihani.dtos.CommentModel;
 import com.mihani.entities.Announcement;
 import com.mihani.entities.BricolageService;
 import com.mihani.entities.Comment;
@@ -37,7 +38,7 @@ public class AnnouncementController {
     }
 
     @GetMapping("/announcements/{id}/comments")
-    public List<Comment> findCommentsByAnnouncementId(@PathVariable("id") Long id) throws Exception {
+    public List<CommentModel> findCommentsByAnnouncementId(@PathVariable("id") Long id) throws Exception {
         return commentService.findCommentsByAnnouncementId(id);
     }
 

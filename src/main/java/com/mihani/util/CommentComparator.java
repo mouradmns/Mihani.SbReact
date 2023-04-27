@@ -7,6 +7,6 @@ import java.util.Comparator;
 public class CommentComparator implements Comparator<Comment> {
     @Override
     public int compare(Comment c1, Comment c2) {
-        return c1.getDateComment().compareTo(c2.getDateComment());
+        return c2.getDateComment().compareTo(c1.getDateComment());
     }
 }
