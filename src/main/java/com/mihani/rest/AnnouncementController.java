@@ -24,7 +24,7 @@ public class AnnouncementController {
     private CommentService commentService;
 
     // the url /announcement?title=title&type=type to fetch this
-    @GetMapping("/announcements")
+        @GetMapping("/announcements")
     public List<Announcement> findByFilter(@RequestParam(name = "title", required = false) String title,
                                            @RequestParam(name = "type", required = false) String[] type) {
         //TODO fix this after when the enum will be fixed
