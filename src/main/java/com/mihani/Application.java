@@ -60,46 +60,12 @@ public class Application {
     }
 
 
-//    @Bean
-//    CommandLineRunner start(BricoleurRepo bricoleurRepo, AnnouncementRepo   announcementRepo) {
-//        return args -> {
+    @Bean
+    CommandLineRunner start(BricoleurRepo bricoleurRepo, AnnouncementRepo   announcementRepo) {
+        return args -> {
 //            Stream.of("ALi", "Mohamed", "Ahmed").forEach(name -> {
-//                Bricoleur bricoleur = new Bricoleur();
-//
-//
-//
-//                Long i = Long.valueOf(23);
-//                bricoleur.setIdUser(i);
-//                bricoleur.setPrenom(name);
-//                bricoleur.setNom(name);
-//
-//                bricoleur.setRating(3.3);
-//
-//
-//
-//
-//                bricoleur.setEmail(name + "@gmail.com");
-//                bricoleur.setBricoleurAvailability(true);
-//                bricoleur.setDescription("contains dd ff ");
-//
-//                int j =2;
-//
-//                bricoleur.setMainPic("/assets/images/bricoleurs/bric"+j+".webp");
-//
-//
-//                List<BricolageService> listSrv = new ArrayList<>();
-//
-//                listSrv.add(BricolageService.ELECTRICITE);
-//                bricoleur.setServices(listSrv);
-//                bricoleurRepo.save(bricoleur);
+
 //            });
-//
-//            Announcement announcement = new Announcement();
-//
-//                announcement.setTitle("Bricolage at home");
-//                announcement.setAvailable(true);
-//                announcementRepo.save(announcement);
-//
-//        };
-//    }
+        };
+    }
 }
