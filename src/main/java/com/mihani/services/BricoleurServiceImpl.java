@@ -94,10 +94,6 @@ public class BricoleurServiceImpl implements BricoleurService{
 
     @Override
     public Bricoleur saveBricoleur(Bricoleur bricoleur) throws BricoleurAlreadyExistsException {
-        Optional<Bricoleur> existingBricoleur = bricoleurRepo.findById(bricoleur.getId());
-        if(existingBricoleur.isPresent()){
-            throw  new BricoleurAlreadyExistsException("a Bricoleur with the same id already exists!!");
-        }
         return bricoleurRepo.save(bricoleur);
     }
 

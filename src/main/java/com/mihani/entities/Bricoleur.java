@@ -18,7 +18,7 @@ import java.util.List;
 @DiscriminatorValue("BR")
 public class Bricoleur extends User {
 
-    @CollectionTable(name = "Bricoleur_Services", joinColumns = @JoinColumn(name = "IdUser"))
+    @CollectionTable(name = "Bricoleur_Services", joinColumns = @JoinColumn(name = "id_user"))
     @ElementCollection(targetClass = BricolageService.class,fetch = FetchType.LAZY)
         @Enumerated(EnumType.STRING)
         private List<BricolageService> services;

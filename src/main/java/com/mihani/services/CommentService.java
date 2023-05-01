@@ -1,8 +1,10 @@
 package com.mihani.services;
 
+import com.mihani.dtos.CommentModel;
 import com.mihani.entities.Announcement;
 import com.mihani.entities.Comment;
 import com.mihani.entities.User;
+import com.mihani.mappers.CommentMapper;
 import com.mihani.repositories.AnnouncementRepo;
 import com.mihani.repositories.CommentRepo;
 import com.mihani.repositories.UserRepo;
@@ -10,6 +12,7 @@ import com.mihani.util.CommentComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -19,14 +22,21 @@ public class CommentService {
 
     @Autowired
     private CommentRepo commentRepo;
-
     @Autowired
     private AnnouncementRepo announcementRepo;
-
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private CommentMapper commentMapper;
 
-    public Comment addComment(Long idAnnouncement,Long idUser, Comment comment) throws Exception {
+    public List<Comment> findAllComments() {
+        List<Comment> comments = new ArrayList<>();
+        commentRepo.findAll().forEach(comments::add);
+        Collections.sort(comments, new CommentComparator());
+        return comments;
+    }
+
+    public CommentModel addComment(Long idAnnouncement,Long idUser, Comment comment) throws Exception {
         Optional<User> optionalUtilisateur = userRepo.findById(idUser);
         Optional<Announcement> optAnnouncement = announcementRepo.findById(idAnnouncement);
 
@@ -38,7 +48,7 @@ public class CommentService {
                 comment.setUser(user);
                 comment = commentRepo.save(comment);
 
-                return comment;
+                return commentMapper.toCommentModel(comment);
             }
             throw new Exception("There is no user with this id " + idAnnouncement + " to add comment for");
         }
@@ -86,10 +96,12 @@ public class CommentService {
 
     }
 
-    public List<Comment> findCommentsByAnnouncementId(Long announcementId) {
+    public List<CommentModel> findCommentsByAnnouncementId(Long announcementId) {
         List<Comment> comments = commentRepo.findCommentsByAnnouncementId(announcementId);
         Collections.sort(comments, new CommentComparator());
-        return comments;
+        List<CommentModel> commentModels = new ArrayList<>();
+        comments.forEach(comment -> commentModels.add(commentMapper.toCommentModel(comment)));
+        return commentModels;
     }
 
     public List<Comment> findCommentsByUserId(Long userId) {

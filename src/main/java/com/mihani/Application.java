@@ -61,7 +61,7 @@ public class Application {
 
 
     @Bean
-    CommandLineRunner start(BricoleurRepo bricoleurRepo, AnnouncementRepo   announcementRepo) {
+    CommandLineRunner start(BricoleurRepo bricoleurRepo, AnnouncementRepo announcementRepo) {
         return args -> {
 //            Stream.of("ALi", "Mohamed", "Ahmed").forEach(name -> {
 

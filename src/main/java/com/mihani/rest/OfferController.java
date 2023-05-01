@@ -1,6 +1,7 @@
 package com.mihani.rest;
 
 import com.mihani.Exceptions.AnnounceNotFoundException;
+import com.mihani.dtos.UserOffersDto;
 import com.mihani.exceptions.UserNotFoundException;
 import com.mihani.entities.Offer;
 import com.mihani.dtos.OfferModel;
@@ -27,14 +28,14 @@ public class OfferController {
     }
 
 
-    @GetMapping("offers/announce/{announcementId}")
-        public List<Offer> listOffersByAnnouncement(@PathVariable Long announcementId) throws AnnounceNotFoundException {
+    @GetMapping("offers/announcement/{announcementId}")
+        public List<UserOffersDto> listOffersByAnnouncement(@PathVariable Long announcementId) throws AnnounceNotFoundException {
         return offerServiceImpl.listAnnouncementOffers(announcementId);
         }
 
 
     @GetMapping("offers/user/{userId}")
-    public List<Offer> listOffersByUser(@PathVariable Long userId) throws UserNotFoundException {
+    public List<UserOffersDto> listOffersByUser(@PathVariable Long userId) throws UserNotFoundException {
         return offerServiceImpl.listBricoleurOffers(userId);
     }
 
