@@ -5,7 +5,6 @@ import com.mihani.security.config.JwtService;
 import com.mihani.security.token.Token;
 import com.mihani.security.token.TokenRepository;
 import com.mihani.security.token.TokenType;
-import com.mihani.security.user.Role;
 import com.mihani.security.user.User;
 import com.mihani.security.user.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,7 +36,7 @@ public class AuthenticationService {
         .lastname(request.getLastname())
         .email(request.getEmail())
         .password(passwordEncoder.encode(request.getPassword()))
-        .role(Role.USER)
+        .role(request.getRole())
         .build();
     var savedUser = repository.save(user);
     var jwtToken = jwtService.generateToken(user);

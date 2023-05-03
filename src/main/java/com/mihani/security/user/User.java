@@ -19,11 +19,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Data
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "_user")
-
+@Entity(name="_user")
 @Table(name = "_user")
 public class User implements UserDetails {
 
@@ -43,7 +43,7 @@ public class User implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return List.of(new SimpleGrantedAuthority(role.name()));
+    return role.getAuthorities();
   }
 
   @Override
