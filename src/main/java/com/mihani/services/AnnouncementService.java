@@ -1,11 +1,12 @@
 package com.mihani.services;
 
 import com.mihani.config.BackendURL;
-import com.mihani.entities.Announcement;
-import com.mihani.entities.AnnouncementAttachment;
-import com.mihani.entities.BricolageService;
+import com.mihani.dtos.AnnouncementDto;
+import com.mihani.entities.*;
+import com.mihani.mappers.AnnouncementMapper;
 import com.mihani.repositories.AnnouncementAttachmentRepo;
 import com.mihani.repositories.AnnouncementRepo;
+import com.mihani.repositories.UserRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -36,81 +37,141 @@ public class AnnouncementService {
     @Autowired
     private BackendURL backendURL;
 
-    public Announcement save(Announcement announcement, MultipartFile[] files) throws Exception {
+    @Autowired
+    private AnnouncementMapper announcementMapper;
+
+    @Autowired
+    private UserRepo userRepo;
+
+    public Announcement save(AnnouncementDto dto, MultipartFile[] files) throws Exception {
         List<AnnouncementAttachment> attachments = new ArrayList<>();
+        Announcement announcement = announcementMapper.toAnnouncement(dto);
+        Optional<User> optionalUser = userRepo.findById(dto.getIdUser());
         if (announcement.getDateAnnouncement().isBefore(announcement.getAppropriateDate())) {
-            for (MultipartFile file : files) {
-                String filename = StringUtils.cleanPath(file.getOriginalFilename());
-                String path = backendURL.getBackendURL() + "/" + filename;
-                AnnouncementAttachment attachment = AnnouncementAttachment.builder()
-                        .path(path)
-                        .build();
-                attachments.add(attachment);
-                Path uploadPath = Paths.get("D:\\", "images");
-                if (!Files.exists(uploadPath)) {
-                    Files.createDirectories(uploadPath);
+            if (optionalUser.isPresent()) {
+                if (files != null) {
+                    for (MultipartFile file : files) {
+                        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+                        String path = backendURL.getBackendURL() + "/" + filename;
+                        AnnouncementAttachment attachment = AnnouncementAttachment.builder()
+                                .path(path)
+                                .build();
+                        attachments.add(attachment);
+                        Path uploadPath = Paths.get("D:\\", "images");
+                        if (!Files.exists(uploadPath)) {
+                            Files.createDirectories(uploadPath);
+                        }
+                        try (InputStream inputStream = file.getInputStream()) {
+                            Path filePath = uploadPath.resolve(filename);
+                            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+                        } catch (IOException e) {
+                            throw new IOException("Could not store file " + filename + ". Please try again!", e);
+                        }
+                    }
+                    announcement.setAnnouncementAttachments(attachments);
                 }
-                try (InputStream inputStream = file.getInputStream()) {
-                    Path filePath = uploadPath.resolve(filename);
-                    Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-                } catch (IOException e) {
-                    throw new IOException("Could not store file " + filename + ". Please try again!", e);
-                }
-            }
-            announcement.setAnnouncementAttachments(attachments);
-            announcement.setId(0L);
-            announcement = announcementRepo.save(announcement);
-            for (AnnouncementAttachment announcementAttachment : attachments) {
-                announcementAttachment.setAnnouncement(announcement);
-                announcementAttachmentRepo.save(announcementAttachment);
-            }
-            return announcement;
+                announcement.setId(0L);
+                announcement.setUser(optionalUser.get());
+                announcement = announcementRepo.save(announcement);
+                if (attachments != null)
+                    for (AnnouncementAttachment announcementAttachment : attachments) {
+                        announcementAttachment.setAnnouncement(announcement);
+                        announcementAttachmentRepo.save(announcementAttachment);
+                    }
+                return announcement;
+            } else
+                throw new Exception("The user doesn't exist");
         } else
             throw new Exception("The appropriate date must be after the current date");
     }
 
-    public Announcement update(Announcement announcement) throws Exception {
-        Optional<Announcement> existingAnnouncement = announcementRepo.findById(announcement.getId());
+    public AnnouncementDto update(AnnouncementDto dto, MultipartFile[] files) throws Exception {
+        Optional<Announcement> existingAnnouncement = announcementRepo.findById(dto.getId());
+        Optional<User> optionalUser = userRepo.findById(dto.getIdUser());
+        List<AnnouncementAttachment> attachments = new ArrayList<>();
         if (existingAnnouncement.isPresent()) {
+            Announcement announcement = existingAnnouncement.get();
             if (existingAnnouncement.get().isAvailable()) {
-                announcementRepo.save(announcement);
-                return announcement;
+                if (optionalUser.isPresent()) {
+                    if (files != null) {
+                        for (MultipartFile file : files) {
+                            String filename = StringUtils.cleanPath(file.getOriginalFilename());
+                            String path = backendURL.getBackendURL() + "/" + filename;
+                            AnnouncementAttachment attachment = AnnouncementAttachment.builder()
+                                    .path(path)
+                                    .build();
+                            attachments.add(attachment);
+                            Path uploadPath = Paths.get("D:\\", "images");
+                            if (!Files.exists(uploadPath)) {
+                                Files.createDirectories(uploadPath);
+                            }
+                            try (InputStream inputStream = file.getInputStream()) {
+                                Path filePath = uploadPath.resolve(filename);
+                                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+                            } catch (IOException e) {
+                                throw new IOException("Could not store file " + filename + ". Please try again!", e);
+                            }
+                        }
+                        announcement.getAnnouncementAttachments().addAll(attachments);
+                    }
+                    announcement.setId(dto.getId());
+                    announcement.setUser(optionalUser.get());
+                    if (!dto.getDescription().isBlank())
+                        announcement.setDescription(dto.getDescription());
+                    announcement = announcementRepo.save(announcement);
+                    if (attachments != null)
+                        for (AnnouncementAttachment announcementAttachment : attachments) {
+                            announcementAttachment.setAnnouncement(announcement);
+                            announcementAttachmentRepo.save(announcementAttachment);
+                        }
+                    return announcementMapper.toAnnouncementDto(announcement);
+                } else
+                    throw new Exception("The user doesn't exist");
             }
         }
-        throw new Exception("Thre is no announcement with this id " + announcement.getId() + " to modify");
+        throw new Exception("Thre is no announcement with this id " + dto.getId() + " to modify");
     }
 
-    public void deleteById(Long id) throws Exception {
-        if (announcementRepo.findById(id).isPresent()) {
-            announcementRepo.deleteById(id);
+    public void deleteById(Long idAnnouncement, Long idUser) throws Exception {
+        if (announcementRepo.findById(idAnnouncement).isPresent()) {
+            announcementRepo.deleteById(idAnnouncement);
         } else
-            throw new Exception("Thre is no announcement with this id " + id + " to modify");
+            throw new Exception("Thre is no announcement with this id " + idAnnouncement + " to modify");
     }
 
-    public Announcement findById(Long id) throws Exception {
+    public AnnouncementDto findById(Long id) throws Exception {
         Optional<Announcement> announcement = announcementRepo.findById(id);
-        if (announcement.isPresent())
-            return announcement.get();
-        else throw new Exception("The announcement doesn't found");
+        if (announcement.isPresent()) {
+            return announcementMapper.toAnnouncementDto(announcement.get());
+        } else throw new Exception("The announcement doesn't found");
     }
 
-    public List<Announcement> findAvailableAnnouncementByFilter(String title, List<BricolageService> types) {
+    public List<AnnouncementDto> findAvailableAnnouncementByFilter(String title, List<BricolageService> types, Cities city) {
         Specification<Announcement> specification = Specification.where(AnnouncementRepo.isAvailabale());
         Specification<Announcement> titleSpec = null;
         Specification<Announcement> typeSpec = null;
+        Specification<Announcement> citySpec = null;
         if (title != null)
             titleSpec = AnnouncementRepo.titleContains(title);
         if (types != null && !types.isEmpty())
             typeSpec = AnnouncementRepo.typeIn(types);
+        if (city != null)
+            citySpec = AnnouncementRepo.cityEquals(city);
 
-        if (titleSpec != null && typeSpec != null)
-            specification = specification.and(titleSpec).and(typeSpec);
-        else if (titleSpec != null)
+        if (titleSpec != null)
             specification = specification.and(titleSpec);
-        else
+        if (typeSpec != null)
             specification = specification.and(typeSpec);
+        if (citySpec != null)
+            specification = specification.and(citySpec);
 
-        return announcementRepo.findAll(specification);
+        List<Announcement> announcements = announcementRepo.findAll(specification);
+        List<AnnouncementDto> announcementDtos = new ArrayList<>();
+        announcements.forEach(announcement -> {
+            announcementDtos.add(announcementMapper.toAnnouncementDto(announcement));
+        });
+
+        return announcementDtos;
     }
 
 }

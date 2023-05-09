@@ -1,5 +1,6 @@
 package com.mihani.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -40,30 +41,38 @@ public class Announcement {
     @Enumerated(EnumType.STRING)
     private List<BricolageService> typeService;
 
+    @Enumerated(EnumType.STRING)
+    private Cities city;
+
     @OneToMany(fetch = FetchType.LAZY,
                 mappedBy = "announcement",
                 cascade = CascadeType.REMOVE)
-    @JsonManagedReference
+    @JsonManagedReference(value = "announcement-attachment")
     private List<AnnouncementAttachment> announcementAttachments;
 
 
     @OneToMany(fetch = FetchType.LAZY,
                 mappedBy = "announcement",
                 cascade = CascadeType.REMOVE)
-    @JsonManagedReference
+    @JsonManagedReference(value = "announcement-comment")
     private List<Comment> comments;
 
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "announcement",
             cascade = CascadeType.REMOVE)
-    @JsonManagedReference
+    @JsonManagedReference(value = "announcement-offer")
     private List<Offer> offers;
 
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "announcement",
             cascade = CascadeType.REMOVE)
-    @JsonManagedReference
+    @JsonManagedReference(value = "announcement-report")
     private List<Report> reports;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user")
+    @JsonBackReference
+    private User user;
 
     public Boolean isAvailable() {
         return this.available;

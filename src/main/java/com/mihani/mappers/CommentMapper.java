@@ -14,6 +14,8 @@ public class CommentMapper {
                 .body(comment.getBody())
                 .idUser(comment.getUser().getId())
                 .idAnnouncement(comment.getAnnouncement().getId())
+                .username(comment.getUser().getNom() + " " + comment.getUser().getPrenom())
+                .userProfileImage(comment.getUser().getMainPic())
                 .build();
         return commentModel;
     }
