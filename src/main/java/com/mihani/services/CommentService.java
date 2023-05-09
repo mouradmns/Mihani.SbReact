@@ -56,7 +56,7 @@ public class CommentService {
 
     }
 
-    public Comment modifyComment(Long idUser, Long idAnnouncement, Comment comment) throws Exception {
+    public CommentModel modifyComment(Long idUser, Long idAnnouncement, Comment comment) throws Exception {
         Optional<Comment> optionalComment = commentRepo.findById(comment.getId());
         Optional<User> optionalUser = userRepo.findById(idUser);
         Optional<Announcement> optionalAnnouncement = announcementRepo.findById(idAnnouncement);
@@ -66,7 +66,8 @@ public class CommentService {
                 comment.setUser(optionalUser.get());
                 comment.setAnnouncement(optionalAnnouncement.get());
                 if (checkUser(idUser, comment.getId())) {
-                    return commentRepo.save(comment);
+                    comment = commentRepo.save(comment);
+                    return commentMapper.toCommentModel(comment);
                 }
                 throw new Exception("The user with id " + idUser + " can not modify the comment with id " + comment.getId() +
                         " because it is not his own");
