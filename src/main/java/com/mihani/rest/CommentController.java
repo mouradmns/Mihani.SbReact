@@ -29,7 +29,7 @@ public class CommentController {
     }
 
     @PutMapping("/comments")
-    public Comment modifyComment(@RequestBody CommentModel model) throws Exception {
+    public CommentModel modifyComment(@RequestBody CommentModel model) throws Exception {
         Comment comment = Comment.builder()
                 .id(model.getId())
                 .body(model.getBody())
