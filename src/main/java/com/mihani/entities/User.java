@@ -28,11 +28,13 @@ public abstract class User {
     private  String tel;
     private String ville;
     private Date dateInscription ;
+    private String mainPic;
+    private Boolean isAvailable;
 
     @OneToMany(fetch = FetchType.LAZY,
                 mappedBy = "user",
                 cascade = CascadeType.REMOVE)
-    @JsonManagedReference
+    @JsonManagedReference(value = "user-comment")
     private List<Comment> comments;
 
 }

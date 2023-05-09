@@ -2,6 +2,7 @@ package com.mihani.repositories;
 
 import com.mihani.entities.Announcement;
 import com.mihani.entities.BricolageService;
+import com.mihani.entities.Cities;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -43,6 +44,15 @@ public interface AnnouncementRepo extends JpaRepository<Announcement, Long>, Jpa
                 subquery.where(typeJoin.in(types));
 
                 return root.get("id").in(subquery);
+            }
+        };
+    }
+
+    public static Specification<Announcement> cityEquals(Cities city) {
+        return new Specification<Announcement>() {
+            @Override
+            public Predicate toPredicate(Root<Announcement> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get("city"), city);
             }
         };
     }

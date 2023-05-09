@@ -29,12 +29,10 @@ public class Bricoleur extends User {
     private Double Rating;
     private Double servicePricePerHour;
     private Integer totalWorkHours;
-    private String mainPic;
 
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "bricoleur", cascade = CascadeType.REMOVE)
-    @JsonManagedReference
-    @JsonBackReference
+    @JsonManagedReference(value = "bricoleur-offer")
     private List<Offer> offers;
 
 }

@@ -32,7 +32,7 @@ Report {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_announcement")
-    @JsonBackReference
+    @JsonBackReference(value = "announcement-report")
     private Announcement announcement;
 
 }

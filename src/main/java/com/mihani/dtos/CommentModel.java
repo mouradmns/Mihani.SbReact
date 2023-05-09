@@ -17,5 +17,7 @@ public class CommentModel {
     private String body;
     private Long idAnnouncement;
     private Long idUser;
+    private String username;
+    private String userProfileImage;
 
 }
