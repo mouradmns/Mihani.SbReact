@@ -29,12 +29,10 @@ import java.util.List;
 @PreAuthorize("hasRole('BRICOLEUR')")
 public class BricoleurController {
 
-
     @Autowired
     private BricoleurServiceImpl bricoleurService;
     @Autowired
     private BricoleurMapperImpl brciMapper;
-
 
     @GetMapping("/bricoleurs")
     @PreAuthorize("hasAuthority('bricoleur:read')")
