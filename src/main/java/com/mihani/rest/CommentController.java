@@ -15,7 +15,7 @@ public class CommentController {
     private CommentService commentService;
 
     @GetMapping("/comments")
-    public List<Comment> findById() throws Exception {
+    public List<Comment> findAllComments() throws Exception {
         return commentService.findAllComments();
     }
 

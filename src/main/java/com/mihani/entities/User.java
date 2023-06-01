@@ -29,7 +29,7 @@ public abstract class User {
     private String ville;
     private Date dateInscription ;
     private String mainPic;
-    private Boolean isAvailable;
+    private Boolean available;
 
     @OneToMany(fetch = FetchType.LAZY,
                 mappedBy = "user",

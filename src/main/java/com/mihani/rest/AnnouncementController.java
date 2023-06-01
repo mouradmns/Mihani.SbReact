@@ -5,7 +5,6 @@ import com.mihani.dtos.CommentModel;
 import com.mihani.entities.Announcement;
 import com.mihani.entities.BricolageService;
 import com.mihani.entities.Cities;
-import com.mihani.entities.Comment;
 import com.mihani.services.AnnouncementService;
 import com.mihani.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class AnnouncementController {
     @Autowired
     private CommentService commentService;
 
-    // the url /announcement?title=title&type=type to fetch this
+    // the url /announcement?title=title&type=type&city=city to fetch this
     @GetMapping("/announcements")
     public List<AnnouncementDto> findByFilter(@RequestParam(name = "title", required = false) String title,
                                               @RequestParam(name = "type", required = false) String[] type,

@@ -57,11 +57,11 @@ public interface AnnouncementRepo extends JpaRepository<Announcement, Long>, Jpa
         };
     }
 
-    public static  Specification<Announcement> isAvailabale() {
+    public static  Specification<Announcement> availabale(boolean available) {
         return new Specification<Announcement>() {
             @Override
             public Predicate toPredicate(Root<Announcement> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.equal(root.get("available"), true);
+                return criteriaBuilder.equal(root.get("available"), available);
             }
         };
     }
