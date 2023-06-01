@@ -37,6 +37,9 @@ public class Announcement {
     @Column(name = "available")
     private Boolean available;
 
+    @Column(name = "validated")
+    private Boolean validated;
+
     @ElementCollection(targetClass = BricolageService.class)
     @Enumerated(EnumType.STRING)
     private List<BricolageService> typeService;

@@ -66,6 +66,7 @@ public class AnnouncementController {
                 .typeService(typeServices)
                 .city(cityEnum)
                 .available(true)
+                .validated(false)
                 .build();
         return announcementService.save(dto, files);
     }

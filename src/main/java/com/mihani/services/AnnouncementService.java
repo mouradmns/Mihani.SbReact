@@ -147,7 +147,7 @@ public class AnnouncementService {
     }
 
     public List<AnnouncementDto> findAvailableAnnouncementByFilter(String title, List<BricolageService> types, Cities city) {
-        Specification<Announcement> specification = Specification.where(AnnouncementRepo.availabale(true));
+        Specification<Announcement> specification = Specification.where(AnnouncementRepo.availabale(true)).and(AnnouncementRepo.validated(true));
         Specification<Announcement> titleSpec = null;
         Specification<Announcement> typeSpec = null;
         Specification<Announcement> citySpec = null;
@@ -177,6 +177,13 @@ public class AnnouncementService {
     public List<AnnouncementDto> findAllAnnouncementsByAvailable(boolean available) {
         Specification<Announcement> specification = Specification.where(AnnouncementRepo.availabale(available));
         List<Announcement> announcements = announcementRepo.findAll(specification);
+        List<AnnouncementDto> dtos = new ArrayList<>();
+        announcements.forEach(announcement -> dtos.add(announcementMapper.toAnnouncementDto(announcement)));
+        return dtos;
+    }
+
+    public List<AnnouncementDto> findAllAnnouncementsByUser(Long idUser) {
+        List<Announcement> announcements = announcementRepo.findAnnouncementsByUserId(idUser);
         List<AnnouncementDto> dtos = new ArrayList<>();
         announcements.forEach(announcement -> dtos.add(announcementMapper.toAnnouncementDto(announcement)));
         return dtos;

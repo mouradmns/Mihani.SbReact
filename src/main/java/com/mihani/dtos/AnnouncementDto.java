@@ -22,6 +22,7 @@ public class AnnouncementDto {
     private String description;
     private LocalDate appropriateDate;
     private Boolean available;
+    private Boolean validated;
     private LocalDate dateAnnouncement;
     private List<AnnouncementAttachment> announcementAttachments;
     private Long idUser;
