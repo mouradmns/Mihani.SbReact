@@ -35,13 +35,13 @@ public class BricoleurController {
     private BricoleurMapperImpl brciMapper;
 
     @GetMapping("/bricoleurs")
-    @PreAuthorize("hasAuthority('bricoleur:read')")
+    @PreAuthorize("hasAnyAuthority('bricoleur:read','client:read','admin:read')")
     public List<BricoleurProfileDto> bricoleurs(){
             return  bricoleurService.listBricoleurs();
     }
 
     @GetMapping("/bricoleurs/available")
-    @PreAuthorize("hasAuthority('bricoleur:read')")
+    @PreAuthorize("hasAnyAuthority('bricoleur:read','client:read','admin:read')")
     public List<BricoleurProfileDto> Filteredbricoleurs(@RequestParam(name ="service",required = false) List<String> service,
                                                         @RequestParam(name ="description",required = false) String description){
             return  bricoleurService.filteredlistOfAVailableBricoleurs(service, description);
@@ -49,17 +49,11 @@ public class BricoleurController {
 
 
     @GetMapping("bricoleurs/{id}")
-    @PreAuthorize("hasAuthority('bricoleur:read')")
+    @PreAuthorize("hasAnyAuthority('bricoleur:read','client:read','admin:read')")
     public BricoleurProfileDto getBricoleur(@PathVariable Long id) throws BricoleurNotFoundException {
         return bricoleurService.getBricoleur(id);
     }
 
-
-    @PostMapping(value = "/bricoleurs")
-    @PreAuthorize("hasAuthority('bricoleur:create')")
-    public Bricoleur saveBricoleur(@RequestBody BricoleurProfileDto bricoleur) throws BricoleurAlreadyExistsException {
-        return  bricoleurService.saveBricoleur(brciMapper.fromBricoleurProfileDto(bricoleur));
-    }
 
         @PutMapping(value = "bricoleurs/{id}")
         @PreAuthorize("hasAuthority('bricoleur:update')")
@@ -70,8 +64,14 @@ public class BricoleurController {
             return new ResponseEntity<>(updatedBricoleur, HttpStatus.OK);
         }
 
+    @PostMapping(value = "/bricoleurs")
+    @PreAuthorize("hasAnyAuthority('bricoleur:create','admin:create')")
+    public Bricoleur saveBricoleur(@RequestBody BricoleurProfileDto bricoleur) throws BricoleurAlreadyExistsException {
+        return  bricoleurService.saveBricoleur(brciMapper.fromBricoleurProfileDto(bricoleur));
+    }
+
         @DeleteMapping("bricoleurs/{id}")
-        @PreAuthorize("hasAuthority('bricoleur:delete')")
+        @PreAuthorize("hasAnyAuthority('bricoleur:delete','admin:delete')")
         public void deleteBricoleur(@PathVariable Long id) throws BricoleurNotFoundException {
             bricoleurService.deleteBricoleur(id);
 

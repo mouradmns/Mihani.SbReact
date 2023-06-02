@@ -25,6 +25,7 @@ public class OfferController {
     private OfferServiceImpl offerServiceImpl;
 
     @PostMapping("/offers")
+    @PreAuthorize("hasAnyAuthority('bricoleur:create')")
     public Offer addOffer(@RequestBody OfferModel model) throws UserNotFoundException, AnnounceNotFoundException {
         Offer offer = Offer.builder()
                 .dateOffer(model.getDateOffer())
@@ -34,6 +35,7 @@ public class OfferController {
         return offerServiceImpl.addOffer(model.getIdAnnouncement(), model.getIdUser(),offer);
     }
     @PutMapping(value = "offers/{id}")
+    @PreAuthorize("hasAnyAuthority('bricoleur:update')")
     public ResponseEntity<Offer> updateBricoleur(@PathVariable Long id , @RequestBody OfferModel offerModel) throws OfferNotFoundException {
 
         Offer offer = Offer.builder()
@@ -46,7 +48,8 @@ public class OfferController {
         return new ResponseEntity<>(updatedOffer, HttpStatus.OK);
     }
 
-    @DeleteMapping("bricoleurs/{id}")
+    @DeleteMapping("offers/{id}")
+    @PreAuthorize("hasAnyAuthority('bricoleur:delete','admin:delete')")
     public void deleteBricoleur(@PathVariable Long id) throws  OfferNotFoundException {
         offerServiceImpl.deleteOffer(id);
 
@@ -58,12 +61,14 @@ public class OfferController {
 
 
     @GetMapping("offers/announcement/{announcementId}")
+    @PreAuthorize("hasAnyAuthority('bricoleur:read','client:read','admin:read')")
         public List<UserOffersDto> listOffersByAnnouncement(@PathVariable Long announcementId) throws AnnounceNotFoundException {
         return offerServiceImpl.listAnnouncementOffers(announcementId);
         }
 
 
     @GetMapping("offers/user/{userId}")
+    @PreAuthorize("hasAnyAuthority('bricoleur:read','client:read','admin:read')")
     public List<UserOffersDto> listOffersByUser(@PathVariable Long userId) throws UserNotFoundException {
         return offerServiceImpl.listBricoleurOffers(userId);
     }

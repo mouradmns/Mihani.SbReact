@@ -6,6 +6,7 @@ import com.mihani.services.BricolageServicesServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +26,7 @@ public class BricolageServicesController {
      private  BricolageServicesServiceImpl bricolageServicesService;
 
     @GetMapping("/services")
+    @PreAuthorize("hasAnyAuthority('bricoleur:read','client:read','admin:read')")
     public List<String> listServices(){
 
         return bricolageServicesService.listServices() ;
