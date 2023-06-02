@@ -2,6 +2,8 @@ package com.mihani.services;
 
 import com.mihani.Exceptions.AnnounceNotFoundException;
 import com.mihani.dtos.UserOffersDto;
+import com.mihani.exceptions.BricoleurNotFoundException;
+import com.mihani.exceptions.OfferNotFoundException;
 import com.mihani.exceptions.UserNotFoundException;
 import com.mihani.entities.Announcement;
 import com.mihani.entities.Bricoleur;
@@ -28,10 +30,11 @@ public class OfferServiceImpl implements OfferService {
     private UserOffersMapper offMapper;
 
     public Offer addOffer(Long idAnnouncement, Long idBricoleur, Offer offer) throws UserNotFoundException, AnnounceNotFoundException {
-        Optional<Announcement> optionalAnnouncement = announcementRepo.findById(idAnnouncement);
         Optional<Bricoleur> optionalBricoleur =bricoleurRepo.findById(idBricoleur);
 
         if ( optionalBricoleur.isPresent()){
+
+            Optional<Announcement> optionalAnnouncement = announcementRepo.findById(idAnnouncement);
             if(optionalAnnouncement.isPresent()) {
                 Announcement announcement = optionalAnnouncement.get();
                 offer.setAnnouncement(announcement);
@@ -41,9 +44,31 @@ public class OfferServiceImpl implements OfferService {
                 offer.setDateOffer(LocalDate.now());
                 return offerRepo.save(offer) ;
             }
-            throw new AnnounceNotFoundException("There is no announcement with the id " + idAnnouncement);
+                throw new AnnounceNotFoundException("There is no announcement with the id " + idAnnouncement);
         }
         throw new UserNotFoundException("There is no User with the id " +idBricoleur);
+    }
+
+    @Override
+    public Offer updateOffer(Offer offer) throws  OfferNotFoundException {
+        Optional<Offer> existingOffer = offerRepo.findById(offer.getId());
+        if(existingOffer.isPresent()){
+            return offerRepo.save(offer);
+        }else {
+            throw new OfferNotFoundException("Offer given not Found!!");
+        }
+
+    }
+
+    @Override
+    public void deleteOffer(Long idOffer) throws  OfferNotFoundException {
+        Optional<Offer> existingOffer = offerRepo.findById(idOffer);
+
+        if(existingOffer.isPresent()) {
+            bricoleurRepo.deleteById(idOffer);
+        }else {
+            throw new OfferNotFoundException("Offer to delete  not found");
+        }
     }
 
 
@@ -58,7 +83,7 @@ public class OfferServiceImpl implements OfferService {
                     offMapper.fromOffer(offer)).toList();
             return listoffsDto;
         }
-        throw  new AnnounceNotFoundException("no Announcement found for id " + idAnnouncement);
+        throw  new AnnounceNotFoundException("no  Announcement found for id " + idAnnouncement);
     }
 
     @Override

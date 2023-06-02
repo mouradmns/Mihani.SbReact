@@ -61,20 +61,20 @@ public class BricoleurController {
         return  bricoleurService.saveBricoleur(brciMapper.fromBricoleurProfileDto(bricoleur));
     }
 
-    @PutMapping(value = "bricoleurs/{id}")
-    @PreAuthorize("hasAuthority('bricoleur:update')")
-    public ResponseEntity<Bricoleur> updateBricoleur(@PathVariable Long id , @RequestBody BricoleurProfileDto bricoleur) throws BricoleurNotFoundException {
+        @PutMapping(value = "bricoleurs/{id}")
+        @PreAuthorize("hasAuthority('bricoleur:update')")
+        public ResponseEntity<Bricoleur> updateBricoleur(@PathVariable Long id , @RequestBody BricoleurProfileDto bricoleur) throws BricoleurNotFoundException {
 
-        bricoleur.setId(id);
-        Bricoleur updatedBricoleur=bricoleurService.updateBricoleur(brciMapper.fromBricoleurProfileDto(bricoleur));
-        return new ResponseEntity<>(updatedBricoleur, HttpStatus.OK);
-    }
-    
-    @DeleteMapping("bricoleurs/{id}")
-    @PreAuthorize("hasAuthority('bricoleur:delete')")
-    public void deleteBricoleur(@PathVariable Long id) throws BricoleurNotFoundException {
-        bricoleurService.deleteBricoleur(id);
+            bricoleur.setId(id);
+            Bricoleur updatedBricoleur=bricoleurService.updateBricoleur(brciMapper.fromBricoleurProfileDto(bricoleur));
+            return new ResponseEntity<>(updatedBricoleur, HttpStatus.OK);
+        }
 
-    }
+        @DeleteMapping("bricoleurs/{id}")
+        @PreAuthorize("hasAuthority('bricoleur:delete')")
+        public void deleteBricoleur(@PathVariable Long id) throws BricoleurNotFoundException {
+            bricoleurService.deleteBricoleur(id);
+
+        }
 
 }
