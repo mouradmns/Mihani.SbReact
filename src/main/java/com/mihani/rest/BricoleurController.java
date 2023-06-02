@@ -46,7 +46,7 @@ public class BricoleurController {
     }
 
 
-    @GetMapping("bricolrs/{id}")
+    @GetMapping("bricoleurs/{id}")
     public BricoleurProfileDto getBricoleur(@PathVariable Long id) throws BricoleurNotFoundException {
         return bricoleurService.getBricoleur(id);
     }
