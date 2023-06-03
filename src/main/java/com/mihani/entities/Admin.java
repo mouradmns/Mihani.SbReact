@@ -1,18 +1,18 @@
 package com.mihani.entities;
 
+
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
-@DiscriminatorValue("CL")
-public class Client extends User {
-
-    private String description;
-
+@DiscriminatorValue("AD")
+public class Admin extends User {
 }

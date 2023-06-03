@@ -189,4 +189,20 @@ public class AnnouncementService {
         return dtos;
     }
 
+    public List<AnnouncementDto> findNonValidatedAnnouncements() {
+        Specification<Announcement> specification = Specification.where(AnnouncementRepo.validated(false));
+        List<Announcement> announcements = announcementRepo.findAll(specification);
+        List<AnnouncementDto> dtos = new ArrayList<>();
+        announcements.forEach(announcement -> dtos.add(announcementMapper.toAnnouncementDto(announcement)));
+        return dtos;
+    }
+
+    public void acceptAnnouncement(Long idAnnouncement) throws Exception {
+        Optional<Announcement> announcement = announcementRepo.findById(idAnnouncement);
+        if (announcement.isPresent()) {
+            announcement.get().setValidated(true);
+            announcementRepo.save(announcement.get());
+        } else throw new Exception("The announcement doesn't found");
+    }
+
 }

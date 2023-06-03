@@ -1,7 +1,9 @@
 package com.mihani.rest;
 
 import com.mihani.dtos.AnnouncementDto;
+import com.mihani.entities.Admin;
 import com.mihani.entities.User;
+import com.mihani.services.AdminService;
 import com.mihani.services.AnnouncementService;
 import com.mihani.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +21,22 @@ public class AdminRest {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private AdminService adminService;
+
+    @GetMapping("/{id}")
+    public Admin getAdmin(@PathVariable("id") Long id) throws Exception {
+        return adminService.getAdmin(id);
+    }
+
     @GetMapping("/announcements")
-    public List<AnnouncementDto> findAllAnnouncements(@RequestParam(value = "available", required = false) boolean available) {
-        return announcementService.findAllAnnouncementsByAvailable(available);
+    public List<AnnouncementDto> findNonValidatedAnnouncements() {
+        return announcementService.findNonValidatedAnnouncements();
+    }
+
+    @PutMapping("/announcements")
+    public void acceptAnnouncement(@RequestBody AnnouncementDto announcementDto) throws Exception {
+        announcementService.acceptAnnouncement(announcementDto.getId());
     }
 
     @GetMapping("/users")
