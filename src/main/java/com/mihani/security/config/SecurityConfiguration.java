@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import static com.mihani.security.user.Permission.*;
 import static com.mihani.security.user.Role.ADMIN;
@@ -27,6 +28,7 @@ import static org.springframework.http.HttpMethod.PUT;
 
 @Configuration
 @EnableWebSecurity
+@CrossOrigin
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfiguration {
@@ -37,13 +39,10 @@ public class SecurityConfiguration {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http
-            .csrf()
-            .disable()
+    http.csrf().disable()
+            .cors().and()
             .authorizeHttpRequests()
-            .requestMatchers(
-                    "/auth/**"
-            )
+            .requestMatchers("/auth/**")
             .permitAll()
             .anyRequest()
             .authenticated()
