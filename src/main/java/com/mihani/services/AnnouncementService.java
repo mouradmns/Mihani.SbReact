@@ -129,14 +129,14 @@ public class AnnouncementService {
                     throw new Exception("The user doesn't exist");
             }
         }
-        throw new Exception("Thre is no announcement with this id " + dto.getId() + " to modify");
+        throw new Exception("There is no announcement with this id " + dto.getId() + " to modify");
     }
 
     public void deleteById(Long idAnnouncement, Long idUser) throws Exception {
         if (announcementRepo.findById(idAnnouncement).isPresent()) {
             announcementRepo.deleteById(idAnnouncement);
         } else
-            throw new Exception("Thre is no announcement with this id " + idAnnouncement + " to modify");
+            throw new Exception("There is no announcement with this id " + idAnnouncement + " to modify");
     }
 
     public AnnouncementDto findById(Long id) throws Exception {
@@ -147,7 +147,7 @@ public class AnnouncementService {
     }
 
     public List<AnnouncementDto> findAvailableAnnouncementByFilter(String title, List<BricolageService> types, Cities city) {
-        Specification<Announcement> specification = Specification.where(AnnouncementRepo.isAvailabale());
+        Specification<Announcement> specification = Specification.where(AnnouncementRepo.availabale(true)).and(AnnouncementRepo.validated(true));
         Specification<Announcement> titleSpec = null;
         Specification<Announcement> typeSpec = null;
         Specification<Announcement> citySpec = null;
@@ -172,6 +172,37 @@ public class AnnouncementService {
         });
 
         return announcementDtos;
+    }
+
+    public List<AnnouncementDto> findAllAnnouncementsByAvailable(boolean available) {
+        Specification<Announcement> specification = Specification.where(AnnouncementRepo.availabale(available));
+        List<Announcement> announcements = announcementRepo.findAll(specification);
+        List<AnnouncementDto> dtos = new ArrayList<>();
+        announcements.forEach(announcement -> dtos.add(announcementMapper.toAnnouncementDto(announcement)));
+        return dtos;
+    }
+
+    public List<AnnouncementDto> findAllAnnouncementsByUser(Long idUser) {
+        List<Announcement> announcements = announcementRepo.findAnnouncementsByUserId(idUser);
+        List<AnnouncementDto> dtos = new ArrayList<>();
+        announcements.forEach(announcement -> dtos.add(announcementMapper.toAnnouncementDto(announcement)));
+        return dtos;
+    }
+
+    public List<AnnouncementDto> findNonValidatedAnnouncements() {
+        Specification<Announcement> specification = Specification.where(AnnouncementRepo.validated(false));
+        List<Announcement> announcements = announcementRepo.findAll(specification);
+        List<AnnouncementDto> dtos = new ArrayList<>();
+        announcements.forEach(announcement -> dtos.add(announcementMapper.toAnnouncementDto(announcement)));
+        return dtos;
+    }
+
+    public void acceptAnnouncement(Long idAnnouncement) throws Exception {
+        Optional<Announcement> announcement = announcementRepo.findById(idAnnouncement);
+        if (announcement.isPresent()) {
+            announcement.get().setValidated(true);
+            announcementRepo.save(announcement.get());
+        } else throw new Exception("The announcement doesn't found");
     }
 
 }

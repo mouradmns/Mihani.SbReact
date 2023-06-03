@@ -16,6 +16,7 @@ public class AnnouncementMapper {
                 .dateAnnouncement(announcement.getDateAnnouncement())
                 .announcementAttachments(announcement.getAnnouncementAttachments())
                 .available(announcement.isAvailable())
+                .validated(announcement.getValidated())
                 .typeService(announcement.getTypeService())
                 .city(announcement.getCity())
                 .idUser(announcement.getUser().getId())
@@ -35,6 +36,7 @@ public class AnnouncementMapper {
                 .typeService(announcementDto.getTypeService())
                 .city(announcementDto.getCity())
                 .available(announcementDto.getAvailable())
+                .validated(announcementDto.getValidated())
                 .build();
     }
 

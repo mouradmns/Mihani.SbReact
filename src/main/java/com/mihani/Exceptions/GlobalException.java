@@ -12,7 +12,7 @@ public class GlobalException {
     public ResponseEntity<String> handleException(Exception ex) {
         ex.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Internal server error occurred.");
+                .body("Internal server error occurred");
     }
 
 }
