@@ -6,14 +6,21 @@ import com.mihani.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class CommentController {
 
     @Autowired
     private CommentService commentService;
 
+    @GetMapping("/comments")
+    public List<Comment> findAllComments() throws Exception {
+        return commentService.findAllComments();
+    }
+
     @PostMapping("/comments")
-    public Comment saveComment(@RequestBody CommentModel model) throws Exception {
+    public CommentModel saveComment(@RequestBody CommentModel model) throws Exception {
         Comment comment = Comment.builder()
                 .dateComment(model.getDateComment())
                 .body(model.getBody())
@@ -22,7 +29,7 @@ public class CommentController {
     }
 
     @PutMapping("/comments")
-    public Comment modifyComment(@RequestBody CommentModel model) throws Exception {
+    public CommentModel modifyComment(@RequestBody CommentModel model) throws Exception {
         Comment comment = Comment.builder()
                 .id(model.getId())
                 .body(model.getBody())

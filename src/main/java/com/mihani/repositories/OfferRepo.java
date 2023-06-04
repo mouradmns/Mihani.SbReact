@@ -1,5 +1,6 @@
 package com.mihani.repositories;
 
+import com.mihani.dtos.UserOffersDto;
 import com.mihani.entities.Bricoleur;
 import com.mihani.entities.Offer;
 import com.mihani.entities.User;

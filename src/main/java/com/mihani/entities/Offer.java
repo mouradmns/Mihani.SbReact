@@ -33,12 +33,12 @@ public class Offer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_announcement")
-    @JsonBackReference
+    @JsonBackReference(value = "announcement-offer")
     private Announcement announcement;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IdUser")
-    @JsonBackReference
+    @JoinColumn(name = "id_user")
+    @JsonBackReference(value = "bricoleur-offer")
     private Bricoleur bricoleur;
 
 

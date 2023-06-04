@@ -3,6 +3,6 @@ package com.mihani.entities;
 
 public enum BricolageService {
 
-    PLOMBERIE,ELECTRICITE,PEINTRE,AUTRE
+    PLOMBERIE,ELECTRICITE,PEINTRE,COMPUTER,CLEANING,CARPENTER,AUTRE
 
 }

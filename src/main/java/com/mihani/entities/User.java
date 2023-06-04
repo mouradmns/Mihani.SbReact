@@ -18,9 +18,9 @@ import java.util.List;
 public abstract class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_user")
     private Long id;
-
     private String prenom;
     private String nom;
     private String email;
@@ -28,11 +28,13 @@ public abstract class User {
     private  String tel;
     private String ville;
     private Date dateInscription ;
+    private String mainPic;
+    private Boolean available;
 
     @OneToMany(fetch = FetchType.LAZY,
                 mappedBy = "user",
                 cascade = CascadeType.REMOVE)
-    @JsonManagedReference
+    @JsonManagedReference(value = "user-comment")
     private List<Comment> comments;
 
 }

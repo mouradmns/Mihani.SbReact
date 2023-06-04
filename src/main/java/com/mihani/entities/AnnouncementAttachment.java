@@ -22,6 +22,6 @@ public class AnnouncementAttachment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_announcement")
-    @JsonBackReference
+    @JsonBackReference(value = "announcement-attachment")
     private Announcement announcement;
 }
