@@ -52,12 +52,12 @@ public class AnnouncementService {
                 if (files != null) {
                     for (MultipartFile file : files) {
                         String filename = StringUtils.cleanPath(file.getOriginalFilename());
-                        String path = backendURL.getBackendURL() + "/" + filename;
+                        String path = backendURL.getBackendURL() + "/images/" + filename;
                         AnnouncementAttachment attachment = AnnouncementAttachment.builder()
                                 .path(path)
                                 .build();
                         attachments.add(attachment);
-                        Path uploadPath = Paths.get("D:\\", "images");
+                        Path uploadPath = Paths.get("src/main/resources/public/images");
                         if (!Files.exists(uploadPath)) {
                             Files.createDirectories(uploadPath);
                         }
@@ -96,12 +96,12 @@ public class AnnouncementService {
                     if (files != null) {
                         for (MultipartFile file : files) {
                             String filename = StringUtils.cleanPath(file.getOriginalFilename());
-                            String path = backendURL.getBackendURL() + "/" + filename;
+                            String path = backendURL.getBackendURL() + "/images/" + filename;
                             AnnouncementAttachment attachment = AnnouncementAttachment.builder()
                                     .path(path)
                                     .build();
                             attachments.add(attachment);
-                            Path uploadPath = Paths.get("D:\\", "images");
+                            Path uploadPath = Paths.get( "src/main/resources/public/images");
                             if (!Files.exists(uploadPath)) {
                                 Files.createDirectories(uploadPath);
                             }
