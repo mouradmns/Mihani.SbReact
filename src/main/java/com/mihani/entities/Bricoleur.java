@@ -37,5 +37,8 @@ public class Bricoleur extends User {
     @JsonBackReference
     private List<Offer> offers;
 
+    public Bricoleur(Integer idSecurity) {
+        this.setId(Long.valueOf(idSecurity));
+    }
 }
 

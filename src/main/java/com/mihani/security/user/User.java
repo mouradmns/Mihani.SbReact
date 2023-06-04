@@ -1,13 +1,8 @@
 package com.mihani.security.user;
 
 import com.mihani.security.token.Token;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.util.Collection;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -28,8 +23,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class User implements UserDetails {
 
   @Id
-  @GeneratedValue
-  private Integer id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer idSecurity;
   private String firstname;
   private String lastname;
   private String email;
