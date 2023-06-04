@@ -15,6 +15,7 @@ import io.jsonwebtoken.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lombok.extern.slf4j.XSlf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,6 +30,7 @@ import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthenticationService {
   private final UserRepository repository;
   private final TokenRepository tokenRepository;
@@ -75,21 +77,31 @@ public class AuthenticationService {
   }
 
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
+
+    var user = repository.findByEmail(request.getEmail())
+            .orElseThrow();
+//    log.info("id user ==============="+user.toString());
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
             request.getEmail(),
-            request.getPassword()
+            request.getPassword(),
+                user.getAuthorities()
         )
     );
-    var user = repository.findByEmail(request.getEmail())
-        .orElseThrow();
+
     var jwtToken = jwtService.generateToken(user);
     var refreshToken = jwtService.generateRefreshToken(user);
+
     revokeAllUserTokens(user);
     saveUserToken(user, jwtToken);
     return AuthenticationResponse.builder()
         .accessToken(jwtToken)
             .refreshToken(refreshToken)
+            .userId(user.getSecurityId())
+            .lastName(user.getLastname())
+            .firstName(user.getFirstname())
+            .role(user.getRole().name())
+
         .build();
   }
 

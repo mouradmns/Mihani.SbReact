@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
+@PreAuthorize("hasRole('BRICOLEUR')")
 public class OfferController {
 
     @Autowired
@@ -36,7 +38,7 @@ public class OfferController {
     }
     @PutMapping(value = "offers/{id}")
     @PreAuthorize("hasAnyAuthority('bricoleur:update')")
-    public ResponseEntity<Offer> updateBricoleur(@PathVariable Long id , @RequestBody OfferModel offerModel) throws OfferNotFoundException {
+    public ResponseEntity<Offer> updateOffer(@PathVariable Long id , @RequestBody OfferModel offerModel) throws OfferNotFoundException {
 
         Offer offer = Offer.builder()
                 .id(offerModel.getId())

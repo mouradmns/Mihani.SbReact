@@ -14,7 +14,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Data
-
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -69,5 +68,8 @@ public class User implements UserDetails {
   @Override
   public boolean isEnabled() {
     return true;
+  }
+  public int getSecurityId() {
+    return this.idSecurity;
   }
 }

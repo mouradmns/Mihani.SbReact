@@ -19,10 +19,9 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins ="*")
-
-
 @AllArgsConstructor
 @Slf4j
+@PreAuthorize("hasAnyRole('BRICOLEUR','CLIENT','ADMIN')")
 public class BricolageServicesController {
 
     @Autowired
