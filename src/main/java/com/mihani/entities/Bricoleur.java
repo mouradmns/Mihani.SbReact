@@ -33,5 +33,8 @@ public class Bricoleur extends User {
     @JsonManagedReference(value = "bricoleur-offer")
     private List<Offer> offers;
 
+    public Bricoleur(Integer idSecurity) {
+        this.setId(Long.valueOf(idSecurity));
+    }
 }
 

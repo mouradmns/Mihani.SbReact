@@ -13,7 +13,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-@SpringBootApplication
+@SpringBootApplication()
 @PropertySource("classpath:application.properties")
 public class Application {
 

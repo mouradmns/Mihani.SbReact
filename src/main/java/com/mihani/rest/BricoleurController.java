@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,21 +26,22 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 @AllArgsConstructor
 @Slf4j
+@PreAuthorize("hasRole('BRICOLEUR')")
 public class BricoleurController {
-
 
     @Autowired
     private BricoleurServiceImpl bricoleurService;
     @Autowired
     private BricoleurMapperImpl brciMapper;
 
-
     @GetMapping("/bricoleurs")
+    @PreAuthorize("hasAnyAuthority('bricoleur:read','client:read','admin:read')")
     public List<BricoleurProfileDto> bricoleurs(){
             return  bricoleurService.listBricoleurs();
     }
 
     @GetMapping("/bricoleurs/available")
+    @PreAuthorize("hasAnyAuthority('bricoleur:read','client:read','admin:read')")
     public List<BricoleurProfileDto> Filteredbricoleurs(@RequestParam(name ="service",required = false) List<String> service,
                                                         @RequestParam(name ="description",required = false) String description){
             return  bricoleurService.filteredlistOfAVailableBricoleurs(service, description);
@@ -47,28 +49,32 @@ public class BricoleurController {
 
 
     @GetMapping("bricoleurs/{id}")
+    @PreAuthorize("hasAnyAuthority('bricoleur:read','client:read','admin:read')")
     public BricoleurProfileDto getBricoleur(@PathVariable Long id) throws BricoleurNotFoundException {
         return bricoleurService.getBricoleur(id);
     }
 
 
+        @PutMapping(value = "bricoleurs/{id}")
+        @PreAuthorize("hasAuthority('bricoleur:update')")
+        public ResponseEntity<Bricoleur> updateBricoleur(@PathVariable Long id , @RequestBody BricoleurProfileDto bricoleur) throws BricoleurNotFoundException {
+
+            bricoleur.setId(id);
+            Bricoleur updatedBricoleur=bricoleurService.updateBricoleur(brciMapper.fromBricoleurProfileDto(bricoleur));
+            return new ResponseEntity<>(updatedBricoleur, HttpStatus.OK);
+        }
+
     @PostMapping(value = "/bricoleurs")
+    @PreAuthorize("hasAnyAuthority('bricoleur:create','admin:create')")
     public Bricoleur saveBricoleur(@RequestBody BricoleurProfileDto bricoleur) throws BricoleurAlreadyExistsException {
         return  bricoleurService.saveBricoleur(brciMapper.fromBricoleurProfileDto(bricoleur));
     }
 
-    @PutMapping(value = "bricoleurs/{id}")
-    public ResponseEntity<Bricoleur> updateBricoleur(@PathVariable Long id , @RequestBody BricoleurProfileDto bricoleur) throws BricoleurNotFoundException {
+        @DeleteMapping("bricoleurs/{id}")
+        @PreAuthorize("hasAnyAuthority('bricoleur:delete','admin:delete')")
+        public void deleteBricoleur(@PathVariable Long id) throws BricoleurNotFoundException {
+            bricoleurService.deleteBricoleur(id);
 
-        bricoleur.setId(id);
-        Bricoleur updatedBricoleur=bricoleurService.updateBricoleur(brciMapper.fromBricoleurProfileDto(bricoleur));
-        return new ResponseEntity<>(updatedBricoleur, HttpStatus.OK);
-    }
-    
-    @DeleteMapping("bricoleurs/{id}")
-    public void deleteBricoleur(@PathVariable Long id) throws BricoleurNotFoundException {
-        bricoleurService.deleteBricoleur(id);
-
-    }
+        }
 
 }

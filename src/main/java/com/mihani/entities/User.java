@@ -18,12 +18,13 @@ import java.util.List;
 public abstract class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_user")
     private Long id;
     private String prenom;
     private String nom;
     private String email;
+    private String password;
     private Integer age;
     private  String tel;
     private String ville;
@@ -37,4 +38,7 @@ public abstract class User {
     @JsonManagedReference(value = "user-comment")
     private List<Comment> comments;
 
+    public User(int id) {
+        this.id = Long.valueOf(id);
+    }
 }
