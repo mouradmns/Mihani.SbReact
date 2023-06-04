@@ -2,6 +2,7 @@ package com.mihani.repositories;
 
 import com.mihani.entities.Announcement;
 import com.mihani.entities.BricolageService;
+import com.mihani.entities.Cities;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +17,8 @@ public interface AnnouncementRepo extends JpaRepository<Announcement, Long>, Jpa
     @Query("SELECT a FROM Announcement  a " +
             "WHERE a.title LIKE CONCAT('%', :title, '%')")
     public List<Announcement> findAnnouncementByTitle(@Param("title") String title);
+
+    public List<Announcement> findAnnouncementsByUserId(Long id);
 
 
 
@@ -47,11 +50,29 @@ public interface AnnouncementRepo extends JpaRepository<Announcement, Long>, Jpa
         };
     }
 
-    public static  Specification<Announcement> isAvailabale() {
+    public static Specification<Announcement> cityEquals(Cities city) {
         return new Specification<Announcement>() {
             @Override
             public Predicate toPredicate(Root<Announcement> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.equal(root.get("available"), true);
+                return criteriaBuilder.equal(root.get("city"), city);
+            }
+        };
+    }
+
+    public static  Specification<Announcement> availabale(boolean available) {
+        return new Specification<Announcement>() {
+            @Override
+            public Predicate toPredicate(Root<Announcement> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get("available"), available);
+            }
+        };
+    }
+
+    public static Specification<Announcement> validated(boolean validated) {
+        return new Specification<Announcement>() {
+            @Override
+            public Predicate toPredicate(Root<Announcement> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get("validated"), validated);
             }
         };
     }
