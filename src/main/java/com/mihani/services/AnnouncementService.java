@@ -36,9 +36,7 @@ public class AnnouncementService {
 
     @Autowired
     private BackendURL backendURL;
-
-    @Autowired
-    private AnnouncementMapper announcementMapper;
+    private AnnouncementMapper announcementMapper = new AnnouncementMapper();
 
     @Autowired
     private UserRepo userRepo;
@@ -50,24 +48,7 @@ public class AnnouncementService {
         if (announcement.getDateAnnouncement().isBefore(announcement.getAppropriateDate())) {
             if (optionalUser.isPresent()) {
                 if (files != null) {
-                    for (MultipartFile file : files) {
-                        String filename = StringUtils.cleanPath(file.getOriginalFilename());
-                        String path = backendURL.getBackendURL() + "/images/" + filename;
-                        AnnouncementAttachment attachment = AnnouncementAttachment.builder()
-                                .path(path)
-                                .build();
-                        attachments.add(attachment);
-                        Path uploadPath = Paths.get("src/main/resources/public/images");
-                        if (!Files.exists(uploadPath)) {
-                            Files.createDirectories(uploadPath);
-                        }
-                        try (InputStream inputStream = file.getInputStream()) {
-                            Path filePath = uploadPath.resolve(filename);
-                            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-                        } catch (IOException e) {
-                            throw new IOException("Could not store file " + filename + ". Please try again!", e);
-                        }
-                    }
+                    saveFiles(files, attachments);
                     announcement.setAnnouncementAttachments(attachments);
                 }
                 announcement.setId(0L);
@@ -85,6 +66,7 @@ public class AnnouncementService {
             throw new Exception("The appropriate date must be after the current date");
     }
 
+
     public AnnouncementDto update(AnnouncementDto dto, MultipartFile[] files) throws Exception {
         Optional<Announcement> existingAnnouncement = announcementRepo.findById(dto.getId());
         Optional<User> optionalUser = userRepo.findById(dto.getIdUser());
@@ -94,24 +76,7 @@ public class AnnouncementService {
             if (existingAnnouncement.get().isAvailable()) {
                 if (optionalUser.isPresent()) {
                     if (files != null) {
-                        for (MultipartFile file : files) {
-                            String filename = StringUtils.cleanPath(file.getOriginalFilename());
-                            String path = backendURL.getBackendURL() + "/images/" + filename;
-                            AnnouncementAttachment attachment = AnnouncementAttachment.builder()
-                                    .path(path)
-                                    .build();
-                            attachments.add(attachment);
-                            Path uploadPath = Paths.get( "src/main/resources/public/images");
-                            if (!Files.exists(uploadPath)) {
-                                Files.createDirectories(uploadPath);
-                            }
-                            try (InputStream inputStream = file.getInputStream()) {
-                                Path filePath = uploadPath.resolve(filename);
-                                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-                            } catch (IOException e) {
-                                throw new IOException("Could not store file " + filename + ". Please try again!", e);
-                            }
-                        }
+                        saveFiles(files, attachments);
                         announcement.getAnnouncementAttachments().addAll(attachments);
                     }
                     announcement.setId(dto.getId());
@@ -203,6 +168,27 @@ public class AnnouncementService {
             announcement.get().setValidated(true);
             announcementRepo.save(announcement.get());
         } else throw new Exception("The announcement doesn't found");
+    }
+
+    private void saveFiles(MultipartFile[] files, List<AnnouncementAttachment> attachments) throws IOException {
+        for (MultipartFile file : files) {
+            String filename = StringUtils.cleanPath(file.getOriginalFilename());
+            String path = backendURL.getBackendURL() + "/images/" + filename;
+            AnnouncementAttachment attachment = AnnouncementAttachment.builder()
+                    .path(path)
+                    .build();
+            attachments.add(attachment);
+            Path uploadPath = Paths.get("src/main/resources/public/images");
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+            try (InputStream inputStream = file.getInputStream()) {
+                Path filePath = uploadPath.resolve(filename);
+                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                throw new IOException("Could not store file " + filename + ". Please try again!", e);
+            }
+        }
     }
 
 }

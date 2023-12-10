@@ -1,4 +1,4 @@
-package com.mihani.Exceptions;
+package com.mihani.exceptions;
 
 public class AnnounceNotFoundException extends Throwable {
     public AnnounceNotFoundException(String message) {

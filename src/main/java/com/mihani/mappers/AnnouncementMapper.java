@@ -3,8 +3,8 @@ package com.mihani.mappers;
 import com.mihani.dtos.AnnouncementDto;
 import com.mihani.entities.Announcement;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
 public class AnnouncementMapper {
 
     public AnnouncementDto toAnnouncementDto(Announcement announcement) {

@@ -1,10 +1,7 @@
 package com.mihani.rest;
 
-import com.mihani.Exceptions.AnnounceNotFoundException;
-import com.mihani.dtos.BricoleurProfileDto;
+import com.mihani.exceptions.AnnounceNotFoundException;
 import com.mihani.dtos.UserOffersDto;
-import com.mihani.entities.Bricoleur;
-import com.mihani.exceptions.BricoleurNotFoundException;
 import com.mihani.exceptions.OfferNotFoundException;
 import com.mihani.exceptions.UserNotFoundException;
 import com.mihani.entities.Offer;
