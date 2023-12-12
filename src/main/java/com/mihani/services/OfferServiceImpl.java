@@ -1,8 +1,7 @@
 package com.mihani.services;
 
-import com.mihani.Exceptions.AnnounceNotFoundException;
+import com.mihani.exceptions.AnnounceNotFoundException;
 import com.mihani.dtos.UserOffersDto;
-import com.mihani.exceptions.BricoleurNotFoundException;
 import com.mihani.exceptions.OfferNotFoundException;
 import com.mihani.exceptions.UserNotFoundException;
 import com.mihani.entities.Announcement;

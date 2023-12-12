@@ -8,6 +8,7 @@ import com.mihani.entities.Cities;
 import com.mihani.services.AnnouncementService;
 import com.mihani.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +17,8 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
+@PreAuthorize("hasAnyRole('CLIENT')")
 public class AnnouncementController {
 
     @Autowired
@@ -25,6 +28,8 @@ public class AnnouncementController {
     private CommentService commentService;
 
     // the url /announcement?title=title&type=type&city=city to fetch this
+
+    @PreAuthorize("hasAnyAuthority('bricoleur:read')")
     @GetMapping("/announcements")
     public List<AnnouncementDto> findByFilter(@RequestParam(name = "title", required = false) String title,
                                               @RequestParam(name = "type", required = false) String[] type,
@@ -37,16 +42,20 @@ public class AnnouncementController {
         return announcementService.findAvailableAnnouncementByFilter(title, types, cityEnum);
     }
 
+    @PreAuthorize("hasAnyAuthority('bricoleur:read','client:read','admin:read')")
     @GetMapping("/announcements/{id}")
     public AnnouncementDto findById(@PathVariable("id") Long id) throws Exception {
         return announcementService.findById(id);
     }
 
+    @PreAuthorize("hasAnyAuthority('bricoleur:read','client:read','admin:read')")
     @GetMapping("/announcements/{id}/comments")
     public List<CommentModel> findCommentsByAnnouncementId(@PathVariable("id") Long id) throws Exception {
         return commentService.findCommentsByAnnouncementId(id);
     }
 
+
+    @PreAuthorize("hasAnyAuthority('client:create')")
     @PostMapping(value = "/announcements", consumes = {"multipart/form-data"})
     public Announcement save(@RequestParam(name = "announcementAttachments", required = false) MultipartFile[] files,
                              @RequestParam("title") String title,
@@ -71,6 +80,8 @@ public class AnnouncementController {
         return announcementService.save(dto, files);
     }
 
+
+    @PreAuthorize("hasAnyAuthority('client:update')")
     @PutMapping(value = "/announcements", consumes = {"multipart/form-data"})
     public AnnouncementDto update(@RequestParam(name = "announcementAttachments", required = false) MultipartFile[] files,
                                @RequestParam("id") Long id,
@@ -84,6 +95,7 @@ public class AnnouncementController {
         return announcementService.update(announcement, files);
     }
 
+    @PreAuthorize("hasAnyAuthority('client:delete','admin:delete')")
     @DeleteMapping("/announcements")
     public void delete(@RequestBody AnnouncementDto dto) throws Exception {
         announcementService.deleteById(dto.getId(), dto.getIdUser());

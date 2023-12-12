@@ -1,10 +1,7 @@
 package com.mihani.rest;
 
-import com.mihani.Exceptions.AnnounceNotFoundException;
-import com.mihani.dtos.BricoleurProfileDto;
+import com.mihani.exceptions.AnnounceNotFoundException;
 import com.mihani.dtos.UserOffersDto;
-import com.mihani.entities.Bricoleur;
-import com.mihani.exceptions.BricoleurNotFoundException;
 import com.mihani.exceptions.OfferNotFoundException;
 import com.mihani.exceptions.UserNotFoundException;
 import com.mihani.entities.Offer;
@@ -19,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
+@PreAuthorize("hasRole('BRICOLEUR')")
 public class OfferController {
 
     @Autowired
@@ -36,7 +35,7 @@ public class OfferController {
     }
     @PutMapping(value = "offers/{id}")
     @PreAuthorize("hasAnyAuthority('bricoleur:update')")
-    public ResponseEntity<Offer> updateBricoleur(@PathVariable Long id , @RequestBody OfferModel offerModel) throws OfferNotFoundException {
+    public ResponseEntity<Offer> updateOffer(@PathVariable Long id , @RequestBody OfferModel offerModel) throws OfferNotFoundException {
 
         Offer offer = Offer.builder()
                 .id(offerModel.getId())
