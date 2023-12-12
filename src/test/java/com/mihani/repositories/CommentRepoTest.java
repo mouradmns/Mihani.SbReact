@@ -3,7 +3,7 @@ package com.mihani.repositories;
 import com.mihani.entities.Client;
 import com.mihani.entities.Comment;
 import com.mihani.entities.User;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

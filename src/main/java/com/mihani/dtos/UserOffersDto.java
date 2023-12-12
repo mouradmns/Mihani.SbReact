@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class UserOffersDto {
 
     private Long idOffer;
-        private String description;
+    private String description;
     private LocalDate dateOffer;
     private Double price;
 
@@ -22,6 +22,11 @@ public class UserOffersDto {
     private String titleAnnouncement;
     private Boolean announcementAvailability;
 
+    public UserOffersDto(Long idOffer, String description) {
+        this.idOffer = idOffer;
+        this.description = description;
+    }
 
-
+    public UserOffersDto() {
+    }
 }
